@@ -7,13 +7,15 @@ import burgerConstructorStyles from './burgerConstructor.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
 const BurgerConstructor = React.forwardRef(({items, onClick}, ref) => {
+
+    let bun = items.filter(item => item.type === "bun");
     return (
         <section className={`pt-25 ${burgerConstructorStyles.burgerConstructor} `}>
             <div className={`${burgerConstructorStyles.burgerConstructor__wrapper} `} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>  
                 <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>              
-                    {items.filter(item => item.type === "bun").map((item, index) => (
+                    {bun.map((item) => (
                         <ConstructorElement
-                            key={index}
+                            key={item._id}
                             type="top"
                             isLocked={true}
                             text={`${item.name} (верх)`}
@@ -23,8 +25,8 @@ const BurgerConstructor = React.forwardRef(({items, onClick}, ref) => {
                     ))}
                 </div>
                 <ul className={`pr-2 ${burgerConstructorStyles.burgerConstructor__mainIngridients} `}>
-                    {items.filter(item => item.type === "main" || item.type === "sauce").map((item, index) => (
-                        <li className={`${burgerConstructorStyles.burgerConstructor__mainIngridient} `} key={index}>
+                    {items.filter(item => item.type === "main" || item.type === "sauce").map((item) => (
+                        <li className={`${burgerConstructorStyles.burgerConstructor__mainIngridient} `} key={item._id}>
                             <DragIcon  type="primary" />
                             <ConstructorElement
                                 text={`${item.name}`}
@@ -36,9 +38,9 @@ const BurgerConstructor = React.forwardRef(({items, onClick}, ref) => {
                 </ul>
 
                 <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>              
-                    {items.filter(item => item.type === "bun").map((item, index) => (
+                    {bun.map((item) => (
                         <ConstructorElement
-                            key={index}
+                            key={item._id}
                             type="bottom"
                             isLocked={true}
                             text={`${item.name} (низ)`}

@@ -41,10 +41,10 @@ const BurgerIngredients = ({data, onClick}) => {
                 <div ref={refBun} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
                     <h2 className={`mb-6 text text_type_main-medium 1`}>Булки</h2>                
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
-                        {data.filter(item => item.type === "bun").map((item, index) => (
-                            <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={index}>
+                        {data.filter(item => item.type === "bun").map((item) => (
+                            <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={item._id}>
                                 <Counter count={1} size="default" />
-                                <img className="mr-4 ml-4 mb-2" src={item.image} alt="" />
+                                <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
                                 <div className={`mb-2 ${burgerIngredientsStyles.burgerIngredients__price}`}>
                                     <p className={`mr-2 text text_type_digits-default`}>{item.price}</p>
                                     <CurrencyIcon type="primary" />
@@ -58,10 +58,10 @@ const BurgerIngredients = ({data, onClick}) => {
                 <div ref={refSauce} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
                     <h2 className={`mb-6 text text_type_main-medium 2`}>Соусы</h2>                
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
-                        {data.filter(item => item.type === "sauce").map((item, index) => (
-                            <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={index}>
+                        {data.filter(item => item.type === "sauce").map((item) => (
+                            <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={item._id}>
                                 <Counter count={1} size="default" />
-                                <img className="mr-4 ml-4 mb-2" src={item.image} alt="" />
+                                <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
                                 <div className={`mb-2 ${burgerIngredientsStyles.burgerIngredients__price}`}>
                                     <p className={`mr-2 text text_type_digits-default`}>{item.price}</p>
                                     <CurrencyIcon type="primary" />
@@ -75,10 +75,10 @@ const BurgerIngredients = ({data, onClick}) => {
                 <div ref={refMain} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
                     <h2 className={`mb-6 text text_type_main-medium 3`}>Основные ингридиенты</h2>                
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
-                        {data.filter(item => item.type === "main").map((item, index) => (
-                            <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={index}>
+                        {data.filter(item => item.type === "main").map((item) => (
+                            <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={item._id}>
                                 <Counter count={1} size="default" />
-                                <img className="mr-4 ml-4 mb-2" src={item.image} alt="" />
+                                <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
                                 <div className={`mb-2 ${burgerIngredientsStyles.burgerIngredients__price}`}>
                                     <p className={`mr-2 text text_type_digits-default`}>{item.price}</p>
                                     <CurrencyIcon type="primary" />
