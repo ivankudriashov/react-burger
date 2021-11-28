@@ -9,51 +9,43 @@ import Modal from '../modal/modal';
 import OrderDetails from '../orderDetails/orderDetails';
 import IngredientDetails from '../ingredientDetails/ingredientDetails';
 
+const REQUEST_URL = 'https://norma.nomoreparties.space/api/ingredients';
+
 const App = (props) => {
 
-    const [state, setState] = React.useState({
-        ingridients: [],
-        selectedIngredientId: ""
-    }); 
-    
-    const [visiblity, setVisiblity] = React.useState({
-        visible: false,
-    }); 
-
-    const [modalsOpened, setmodalsOpened] = React.useState({
-        modalOrderDetailsOpened: false,
-        modalIngredientDetailsOpened: false
-    }); 
+    const [ingridients, setingridients] = React.useState([]);
+    const [selectedIngredientId, setSelectedIngredientId] = React.useState("");    
+    const [visiblity, setVisiblity] = React.useState(false); 
+    const [modalOrderDetailsOpened, setModalOrderDetailsOpened] = React.useState(false);
+    const [modalIngredientDetailsOpened, setModalIngredientDetailsOpened] = React.useState(false);
 
     const buttonElement = React.useRef(null);
     
     const handleOpenModal = (e) => {
-        setVisiblity({ visible: true });
+        setVisiblity(true);
 
         if (e.currentTarget === buttonElement.current.childNodes[0]) {
-            setmodalsOpened({modalOrderDetailsOpened: true});
+            setModalOrderDetailsOpened(true);
         } else {
-            setmodalsOpened({modalIngredientDetailsOpened: true});
+            setModalIngredientDetailsOpened(true);
         }
 
-        setState({...state, selectedIngredientId: e.currentTarget.id});
+        setSelectedIngredientId(e.currentTarget.id);
     }
     
     const handleCloseModal = () => {
-        setVisiblity({ visible: false });
-        setmodalsOpened({modalIngredientDetailsOpened: false});
-        setmodalsOpened({modalOrderDetailsOpened: false});
-        setState({...state, selectedIngredientId: ""});
+        setVisiblity(false);
+        setModalIngredientDetailsOpened(false);
+        setModalOrderDetailsOpened(false);
+        setSelectedIngredientId("");
     }
 
     React.useEffect(() => {
-        const url = 'https://norma.nomoreparties.space/api/ingredients';
-
         const getIngridients = async () => {
             try {
-                const res = await fetch(url);
+                const res = await fetch(REQUEST_URL);
                 const data = await res.json();
-                setState({...state, ingridients: data.data});
+                setingridients(data.data);
                 
             } catch (error){
                 console.log("error", error);
@@ -67,16 +59,16 @@ const App = (props) => {
         <div className={appStyles.app}>
             <AppHeader />
             <div className={appStyles.app__container}>
-                <BurgerIngredients onClick={handleOpenModal} data={state.ingridients} />
+                <BurgerIngredients onClick={handleOpenModal} data={ingridients} />
                 <BurgerConstructor ref={buttonElement} onClick={handleOpenModal} items={items} />
 
-                {visiblity.visible && modalsOpened.modalIngredientDetailsOpened && 
+                {visiblity && modalIngredientDetailsOpened && 
                 <Modal onClose={handleCloseModal}>
-                    <IngredientDetails ingridients={state.ingridients}
-                       selectedIngredientId={state.selectedIngredientId}/>
+                    <IngredientDetails ingridients={ingridients}
+                       selectedIngredientId={selectedIngredientId}/>
                 </Modal> }
 
-                {visiblity.visible && modalsOpened.modalOrderDetailsOpened && 
+                {visiblity && modalOrderDetailsOpened && 
                 <Modal onClose={handleCloseModal}>
                     <OrderDetails />
                 </Modal> }

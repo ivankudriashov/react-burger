@@ -8,7 +8,8 @@ import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktiku
 
 const BurgerConstructor = React.forwardRef(({items, onClick}, ref) => {
 
-    let bun = items.filter(item => item.type === "bun");
+    const bun = items.filter(item => item.type === "bun");
+
     return (
         <section className={`pt-25 ${burgerConstructorStyles.burgerConstructor} `}>
             <div className={`${burgerConstructorStyles.burgerConstructor__wrapper} `} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>  

@@ -25,18 +25,18 @@ const Modal = (props) => {
     },[]);
 
     return ReactDOM.createPortal((
-            <div className={modalStyles.popup} onClick={onClose}>                
-                <ModalOverlay />
-                <div className={modalStyles.modal} onClick={(evt) => {
-                    evt.stopPropagation()}}>
-                    <div className={modalStyles.cross} onClick={onClose}>
-                        <CloseIcon type="primary"/>
-                    </div>
-                    {props.children}
+        <div className={modalStyles.popup} onClick={onClose}>
+            <ModalOverlay />
+            <div className={modalStyles.modal} onClick={(evt) => {
+                evt.stopPropagation()}}>
+                <div className={modalStyles.cross} onClick={onClose}>
+                    <CloseIcon type="primary"/>
                 </div>
+                {props.children}
             </div>
-        ),
-        modalRoot
+        </div>
+      ),
+      modalRoot
     )
 }
 
