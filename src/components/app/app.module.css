@@ -1,0 +1,10 @@
+.app {
+    background-color: #131316;
+}
+
+.app__container {
+    display: flex;
+
+    margin: 0 auto;
+    width: 1240px;
+}

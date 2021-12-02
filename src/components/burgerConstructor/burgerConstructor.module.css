@@ -1,0 +1,57 @@
+.burgerConstructor {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 40px;
+    padding-bottom: 50px;
+}
+
+.burgerConstructor__mainIngridients {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    margin: 0;
+    padding: 0;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: calc(100vh - 564px);
+    
+    scrollbar-color: #8585AD #2F2F37;
+    scrollbar-width: thin;
+}
+
+.burgerConstructor__mainIngridients::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+}
+
+.burgerConstructor__mainIngridients::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.burgerConstructor__mainIngridients::-webkit-scrollbar-thumb:hover {
+    background-color: #8585AD;
+}
+
+.burgerConstructor__mainIngridient {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.burgerConstructor__order {
+    align-self: end;
+    display: flex;
+    align-items:center;
+}
+
+.burgerConstructor__count {
+    margin-right: 10px;
+}
+
+.burgerConstructor__icon svg {
+    width: 33px;
+    height: 33px;
+}

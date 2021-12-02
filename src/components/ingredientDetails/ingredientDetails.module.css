@@ -1,0 +1,25 @@
+.ingredientDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    align-self: start;
+}
+
+.infoItems {
+    display: flex;
+    align-items: center;
+
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}
+
+.infoItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
