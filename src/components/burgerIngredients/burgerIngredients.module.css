@@ -1,0 +1,56 @@
+.burgerIngredients {
+    width: 600px;
+    margin-bottom: 40px;
+
+    cursor: pointer;
+}
+
+.burgerIngredients__scrollWrapper {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: calc(100vh - 284px);
+    
+    scrollbar-color: #8585AD #2F2F37;
+    scrollbar-width: thin;
+}
+
+.burgerIngredients__scrollWrapper::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+}
+
+.burgerIngredients__scrollWrapper::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.burgerIngredients__scrollWrapper::-webkit-scrollbar-thumb:hover {
+    background-color: #8585AD;
+}
+
+.burgerIngredients__items {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 32px;
+
+    margin: 0;
+
+    list-style: none;
+}
+
+.burgerIngredients__item {
+    position: relative;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+
+    width: 272px;
+}
+
+.burgerIngredients__price {
+    display: flex;
+}
+
+.burgerIngredients__ingredientName {
+    text-align: center;
+}
