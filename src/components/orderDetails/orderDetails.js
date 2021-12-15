@@ -2,8 +2,7 @@ import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-component
 
 import orderDetailsStyles from './orderDetails.module.css';
 
-const OrderDetails = () => {
-  
+const OrderDetails = () => {  
     return (
         <div className={`pt-30 pb-30 ${orderDetailsStyles.orderDetails}`}>
             <h2 className={`text text_type_digits-large mb-8 ${orderDetailsStyles.title}`}>034536</h2>
