@@ -7,11 +7,9 @@ import { ConstructorContext } from '../utils/appContext';
 
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
-const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
+const BurgerConstructor = React.forwardRef(({onClick, totalPrice}, ref) => {
 
-
-
-    const { constructorIngridients, setConstructorIngridients } = useContext(ConstructorContext);
+    const { constructorIngridients } = useContext(ConstructorContext);
 
     const bun = constructorIngridients.find((item) => item.type === "bun");
 
@@ -55,7 +53,7 @@ const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
                 </div>}
             </div>
             <div className={`pr-4 mt-10 ${burgerConstructorStyles.burgerConstructor__order}`}>
-                <p className={`text text_type_digits-default ${burgerConstructorStyles.burgerConstructor__count}`}>610</p>
+               {totalPrice && <p className={`text text_type_digits-default ${burgerConstructorStyles.burgerConstructor__count}`}>{totalPrice}</p>}
                 <div className={`mr-10 ${burgerConstructorStyles.burgerConstructor__icon}`}>
                     <CurrencyIcon type="primary" />
                 </div>

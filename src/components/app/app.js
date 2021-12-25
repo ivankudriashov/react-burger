@@ -8,9 +8,10 @@ import Modal from '../modal/modal';
 import OrderDetails from '../orderDetails/orderDetails';
 import IngredientDetails from '../ingredientDetails/ingredientDetails';
 
-import { ConstructorContext, TotalPriceContext } from '../utils/appContext';
+import { ConstructorContext } from '../utils/appContext';
 
 const REQUEST_URL = 'https://norma.nomoreparties.space/api/ingredients';
+const REQUEST_OREDER_NUMBER_URL = 'https://norma.nomoreparties.space/api/orders';
 
 const App = (props) => {
 
@@ -19,19 +20,53 @@ const App = (props) => {
 
     const [constructorIngridients, setConstructorIngridients] = React.useState([]);
 
+    const [totalPrice, setTotalPrice] = React.useState([]);
+
+    const [orderNumber, setOrderNumber] = React.useState(0);
+
     const [visiblity, setVisiblity] = React.useState(false); 
     const [modalOrderDetailsOpened, setModalOrderDetailsOpened] = React.useState(false);
     const [modalIngredientDetailsOpened, setModalIngredientDetailsOpened] = React.useState(false);
 
     const buttonElement = React.useRef(null);
-  
-    const [totalPrice, setTotalPrice] = React.useState(0);
+
+    const getOrderNumber = function() {
+        let orderIngridientsArr = [];
+
+        constructorIngridients.forEach((item, i) => {
+            orderIngridientsArr[i] = item._id
+        })
+
+        const orderIngredientsIds = { 
+            "ingredients": orderIngridientsArr
+        };
+        const getIngridients = async () => {
+            try {
+                const res = await fetch(REQUEST_OREDER_NUMBER_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                        },
+                    body: JSON.stringify(orderIngredientsIds)
+                })
+                const data = await res.json();
+                setOrderNumber(data.order.number);
+            } catch (error){
+                console.log("error", error);
+            }
+        };
+
+        getIngridients();
+    }
     
     const handleOpenModal = (e) => {
         setVisiblity(true);
 
         if (e.currentTarget === buttonElement.current.childNodes[0]) {
             setModalOrderDetailsOpened(true);
+
+            getOrderNumber();
+
         } else {
             setModalIngredientDetailsOpened(true);
         }
@@ -47,45 +82,38 @@ const App = (props) => {
     }
 
     React.useEffect(() => {
-        const getTotalPrice = () => {
-                const totalPrice = constructorIngridients.reduce((a, b) => {
-                    
-                    console.log(a)
-                    console.log(b.price)
-                    let c = a + b.price;
-                    return c;
-                }, 0)
-                setTotalPrice(totalPrice)
-        };
-        getTotalPrice();
-    }, [constructorIngridients]);
-
-    React.useEffect(() => {
-        const getIngridients = async () => {
+        const getOrderNumber = async () => {
             try {
                 const res = await fetch(REQUEST_URL);
                 const data = await res.json();
                 setingridients(data.data);
                 setConstructorIngridients(data.data);
-                
-            } catch (error){
+            }
+            catch (error){
                 console.log("error", error);
             }
         };
-
-        getIngridients();
+        getOrderNumber();
     }, []);
+
+    React.useEffect(
+        () => {
+            let total = 0;
+            constructorIngridients.map(item => (total += item.price));
+            setTotalPrice(total);
+        },
+        [constructorIngridients, setTotalPrice]
+    );
 
     return (
         <ConstructorContext.Provider value={{ constructorIngridients, setConstructorIngridients }}>
             <div className={appStyles.app}>
                 <AppHeader />
                 <div className={appStyles.app__container}>
-                    <TotalPriceContext.Provider value={{ totalPrice }}>
-                        <BurgerIngredients onClick={handleOpenModal} data={ingridients} />
-                    </TotalPriceContext.Provider>
+                
+                    <BurgerIngredients onClick={handleOpenModal} data={ingridients} />
 
-                    <BurgerConstructor ref={buttonElement} onClick={handleOpenModal} />
+                    <BurgerConstructor totalPrice={totalPrice} ref={buttonElement} onClick={handleOpenModal} />
 
                     {visiblity && modalIngredientDetailsOpened && 
                     <Modal onClose={handleCloseModal}>
@@ -95,9 +123,7 @@ const App = (props) => {
 
                     {visiblity && modalOrderDetailsOpened && 
                     <Modal onClose={handleCloseModal}>
-                        
-                            <OrderDetails />
-                        
+                        <OrderDetails orderNumber={orderNumber}/>
                     </Modal> }
                 </div>
             </div>
