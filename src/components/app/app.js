@@ -40,6 +40,7 @@ const App = (props) => {
         const orderIngredientsIds = { 
             "ingredients": orderIngridientsArr
         };
+        
         const getIngridients = async () => {
             try {
                 const res = await fetch(REQUEST_OREDER_NUMBER_URL, {
