@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 
 import burgerConstructorStyles from './burgerConstructor.module.css';
 
-import { ConstructorContext } from '../utils/appContext';
+import { BurgerContext } from '../utils/appContext';
 
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
 const BurgerConstructor = React.forwardRef(({onClick, totalPrice}, ref) => {
 
-    const { constructorIngridients } = useContext(ConstructorContext);
+    const { ingridients } = useContext(BurgerContext);
 
-    const bun = constructorIngridients.find((item) => item.type === "bun");
+    const bun = ingridients.find((item) => item.type === "bun");
 
     return (
         <section className={`pt-25 ${burgerConstructorStyles.burgerConstructor} `}>
@@ -28,8 +28,8 @@ const BurgerConstructor = React.forwardRef(({onClick, totalPrice}, ref) => {
                         />
                     
                 </div>}
-                <ul className={`pr-2 ${burgerConstructorStyles.burgerConstructor__mainIngridients} `}>
-                    {constructorIngridients.filter(item => item.type === "main" || item.type === "sauce").map((item) => (
+                { ingridients && <ul className={`pr-2 ${burgerConstructorStyles.burgerConstructor__mainIngridients} `}>
+                    {ingridients.filter(item => item.type === "main" || item.type === "sauce").map((item) => (
                         <li className={`${burgerConstructorStyles.burgerConstructor__mainIngridient} `} key={item._id}>
                             <DragIcon  type="primary" />
                             <ConstructorElement
@@ -39,7 +39,7 @@ const BurgerConstructor = React.forwardRef(({onClick, totalPrice}, ref) => {
                             />
                         </li>
                     ))}
-                </ul>
+                </ul> }
 
                 {bun && <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>
                         <ConstructorElement
@@ -69,23 +69,7 @@ const BurgerConstructor = React.forwardRef(({onClick, totalPrice}, ref) => {
     );
 });
 
-// const dataPropTypes = PropTypes.shape({
-//     _id: PropTypes.string,
-//         name: PropTypes.string,
-//         type: PropTypes.string,
-//         proteins: PropTypes.number,
-//         fat: PropTypes.number,
-//         carbohydrates: PropTypes.number,
-//         calories: PropTypes.number,
-//         price: PropTypes.number,
-//         image: PropTypes.string,
-//         image_mobile: PropTypes.string,
-//         image_large: PropTypes.string,
-//         __v: PropTypes.number
-//   });
-
 BurgerConstructor.propTypes = {
-    // constructorIngridients: PropTypes.arrayOf(dataPropTypes).isRequired,
     onClick: PropTypes.func.isRequired
 };
 

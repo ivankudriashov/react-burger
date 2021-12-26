@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 
+import { BurgerContext } from '../utils/appContext';
+
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 
-const BurgerIngredients = ({data, onClick}) => {
+const BurgerIngredients = ({onClick}) => {
     const [current, setCurrent] = React.useState('one');
+
+    const { ingridients } = useContext(BurgerContext);
 
     const refBun = React.createRef();
     const refSauce = React.createRef();
@@ -40,7 +44,7 @@ const BurgerIngredients = ({data, onClick}) => {
                 <div ref={refBun} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
                     <h2 className={`mb-6 text text_type_main-medium 1`}>Булки</h2>                
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
-                        {data.filter(item => item.type === "bun").map((item) => (
+                        {ingridients.filter(item => item.type === "bun").map((item) => (
                             <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={item._id}>
                                 <Counter count={1} size="default" />
                                 <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
@@ -57,7 +61,7 @@ const BurgerIngredients = ({data, onClick}) => {
                 <div ref={refSauce} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
                     <h2 className={`mb-6 text text_type_main-medium 2`}>Соусы</h2>                
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
-                        {data.filter(item => item.type === "sauce").map((item) => (
+                        {ingridients.filter(item => item.type === "sauce").map((item) => (
                             <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={item._id}>
                                 <Counter count={1} size="default" />
                                 <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
@@ -68,13 +72,13 @@ const BurgerIngredients = ({data, onClick}) => {
                                 <p className={`mb-8 text text_type_main-default ${burgerIngredientsStyles.burgerIngredients__ingredientName}`}>{item.name}</p>
                             </li>
                         ))}
-                    </ul>
+                    </ul> 
                 </div>
 
                 <div ref={refMain} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
                     <h2 className={`mb-6 text text_type_main-medium 3`}>Основные ингридиенты</h2>                
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
-                        {data.filter(item => item.type === "main").map((item) => (
+                        {ingridients.filter(item => item.type === "main").map((item) => (
                             <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={item._id}>
                                 <Counter count={1} size="default" />
                                 <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
@@ -85,30 +89,14 @@ const BurgerIngredients = ({data, onClick}) => {
                                 <p className={`mb-8 text text_type_main-default ${burgerIngredientsStyles.burgerIngredients__ingredientName}`}>{item.name}</p>
                             </li>
                         ))}
-                    </ul>
+                    </ul> 
                 </div>
             </div>
         </section>
     );
 }
 
-const dataPropTypes = PropTypes.shape({
-    _id: PropTypes.string,
-        name: PropTypes.string,
-        type: PropTypes.string,
-        proteins: PropTypes.number,
-        fat: PropTypes.number,
-        carbohydrates: PropTypes.number,
-        calories: PropTypes.number,
-        price: PropTypes.number,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large: PropTypes.string,
-        __v: PropTypes.number
-  });
-
   BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(dataPropTypes).isRequired,
     onClick: PropTypes.func.isRequired
 };
 

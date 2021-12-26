@@ -1,8 +1,13 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import ingredientDetails from './ingredientDetails.module.css';
 
-const IngredientDetails = ({ingridients, selectedIngredientId}) => {
+import { BurgerContext } from '../utils/appContext';
+
+const IngredientDetails = ({selectedIngredientId}) => {
+
+    const { ingridients } = useContext(BurgerContext);
     
     const clickedIngridient = ingridients.filter(item => item._id === selectedIngredientId);
 
@@ -33,23 +38,7 @@ const IngredientDetails = ({ingridients, selectedIngredientId}) => {
     )
 }
 
-const dataPropTypes = PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    __v: PropTypes.number
-});
-
 IngredientDetails.propTypes = {
-    ingridients: PropTypes.arrayOf(dataPropTypes).isRequired,
     selectedIngredientId: PropTypes.string.isRequired
 };
 
