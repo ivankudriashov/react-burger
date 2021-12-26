@@ -8,10 +8,9 @@ import Modal from '../modal/modal';
 import OrderDetails from '../orderDetails/orderDetails';
 import IngredientDetails from '../ingredientDetails/ingredientDetails';
 
-import { ConstructorContext } from '../utils/appContext';
+import { BurgerContext } from '../utils/appContext';
 
-const REQUEST_URL = 'https://norma.nomoreparties.space/api/ingredients';
-const REQUEST_OREDER_NUMBER_URL = 'https://norma.nomoreparties.space/api/orders';
+const BASE_URL = 'https://norma.nomoreparties.space/api';
 
 const App = (props) => {
 
@@ -42,7 +41,7 @@ const App = (props) => {
         };
         const getIngridients = async () => {
             try {
-                const res = await fetch(REQUEST_OREDER_NUMBER_URL, {
+                const res = await fetch(`${BASE_URL}/orders`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -84,7 +83,7 @@ const App = (props) => {
     React.useEffect(() => {
         const getOrderNumber = async () => {
             try {
-                const res = await fetch(REQUEST_URL);
+                const res = await fetch(`${BASE_URL}/ingredients`);
                 const data = await res.json();
                 setingridients(data.data);
                 setConstructorIngridients(data.data);
@@ -106,18 +105,18 @@ const App = (props) => {
     );
 
     return (
-        <ConstructorContext.Provider value={{ constructorIngridients, setConstructorIngridients }}>
+        <BurgerContext.Provider value={{ ingridients }}>
             <div className={appStyles.app}>
                 <AppHeader />
                 <div className={appStyles.app__container}>
                 
-                    <BurgerIngredients onClick={handleOpenModal} data={ingridients} />
+                    <BurgerIngredients onClick={handleOpenModal} />
 
                     <BurgerConstructor totalPrice={totalPrice} ref={buttonElement} onClick={handleOpenModal} />
 
                     {visiblity && modalIngredientDetailsOpened && 
                     <Modal onClose={handleCloseModal}>
-                        <IngredientDetails ingridients={ingridients}
+                        <IngredientDetails
                         selectedIngredientId={selectedIngredientId}/>
                     </Modal> }
 
@@ -127,7 +126,7 @@ const App = (props) => {
                     </Modal> }
                 </div>
             </div>
-        </ConstructorContext.Provider>
+        </BurgerContext.Provider>
     )
 }
   
