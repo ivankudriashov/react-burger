@@ -1,32 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import burgerConstructorStyles from './burgerConstructor.module.css';
 
+import { BurgerContext } from '../utils/appContext';
 
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
-const BurgerConstructor = React.forwardRef(({items, onClick}, ref) => {
+const BurgerConstructor = React.forwardRef(({onClick, totalPrice}, ref) => {
 
-    const bun = items.filter(item => item.type === "bun");
+    const { ingridients } = useContext(BurgerContext);
+
+    const bun = ingridients.find((item) => item.type === "bun");
 
     return (
         <section className={`pt-25 ${burgerConstructorStyles.burgerConstructor} `}>
             <div className={`${burgerConstructorStyles.burgerConstructor__wrapper} `} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>  
-                <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>              
-                    {bun.map((item) => (
+                {bun && <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>              
+                    
                         <ConstructorElement
-                            key={item._id}
+                            key={bun._id}
                             type="top"
                             isLocked={true}
-                            text={`${item.name} (верх)`}
-                            price={`${item.price}`}
-                            thumbnail={`${item.image}`}
+                            text={`${bun.name} (верх)`}
+                            price={`${bun.price}`}
+                            thumbnail={`${bun.image}`}
                         />
-                    ))}
-                </div>
-                <ul className={`pr-2 ${burgerConstructorStyles.burgerConstructor__mainIngridients} `}>
-                    {items.filter(item => item.type === "main" || item.type === "sauce").map((item) => (
+                    
+                </div>}
+                { ingridients && <ul className={`pr-2 ${burgerConstructorStyles.burgerConstructor__mainIngridients} `}>
+                    {ingridients.filter(item => item.type === "main" || item.type === "sauce").map((item) => (
                         <li className={`${burgerConstructorStyles.burgerConstructor__mainIngridient} `} key={item._id}>
                             <DragIcon  type="primary" />
                             <ConstructorElement
@@ -36,23 +39,21 @@ const BurgerConstructor = React.forwardRef(({items, onClick}, ref) => {
                             />
                         </li>
                     ))}
-                </ul>
+                </ul> }
 
-                <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>              
-                    {bun.map((item) => (
+                {bun && <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>
                         <ConstructorElement
-                            key={item._id}
+                            key={bun._id}
                             type="bottom"
                             isLocked={true}
-                            text={`${item.name} (низ)`}
-                            price={`${item.price}`}
-                            thumbnail={`${item.image}`}
+                            text={`${bun.name} (низ)`}
+                            price={`${bun.price}`}
+                            thumbnail={`${bun.image}`}
                         />
-                    ))}
-                </div>
+                </div>}
             </div>
             <div className={`pr-4 mt-10 ${burgerConstructorStyles.burgerConstructor__order}`}>
-                <p className={`text text_type_digits-default ${burgerConstructorStyles.burgerConstructor__count}`}>610</p>
+               {totalPrice && <p className={`text text_type_digits-default ${burgerConstructorStyles.burgerConstructor__count}`}>{totalPrice}</p>}
                 <div className={`mr-10 ${burgerConstructorStyles.burgerConstructor__icon}`}>
                     <CurrencyIcon type="primary" />
                 </div>
@@ -68,23 +69,7 @@ const BurgerConstructor = React.forwardRef(({items, onClick}, ref) => {
     );
 });
 
-const dataPropTypes = PropTypes.shape({
-    _id: PropTypes.string,
-        name: PropTypes.string,
-        type: PropTypes.string,
-        proteins: PropTypes.number,
-        fat: PropTypes.number,
-        carbohydrates: PropTypes.number,
-        calories: PropTypes.number,
-        price: PropTypes.number,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large: PropTypes.string,
-        __v: PropTypes.number
-  });
-
 BurgerConstructor.propTypes = {
-    items: PropTypes.arrayOf(dataPropTypes).isRequired,
     onClick: PropTypes.func.isRequired
 };
 
