@@ -1,21 +1,12 @@
-import { useEffect } from 'react';
-
 import ingredientDetails from './ingredientDetails.module.css';
 
-import { getAllIngridients } from '../../services/actions/state';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const IngredientDetails = () => {
 
     const { indridientId }  = useSelector(state => state.ingridients);
     const { ingridients } = useSelector(state => state.ingridients);
-  
-    const dispatch = useDispatch();
-    
-   useEffect(() => {
-      dispatch(getAllIngridients()) 
-    }, [dispatch])
-    
+
     const clickedIngridient = ingridients.filter(item => item._id === indridientId);
 
     return (

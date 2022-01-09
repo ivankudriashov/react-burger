@@ -10,6 +10,7 @@ import {
   DELETE_INGRIDIENT,
   GET_TOTAL_PRICE,
   CONSTRUCTOR_INGREDIENTS_SORT,
+  CLEAR_CONSTRUCTOR,
 
   OPEN_INGRIDIENT_DATA,
   CLOSE_INGRIDIENT_DATA,
@@ -152,6 +153,15 @@ export const ingridientsReducer = (state = initialState, action) => {
         ...state,
         constructorIngridients: [...state.constructorIngridients].filter(item => item.secondId !== action.secondId),
         otherIngridients: [...state.otherIngridients].filter(item => item.secondId !== action.secondId),
+      };
+    }
+
+    case CLEAR_CONSTRUCTOR: {
+      return {
+        ...state,
+        constructorIngridients: [],
+        buns: [],
+        otherIngridients: []
       };
     }
 

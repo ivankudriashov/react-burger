@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 
 import BurgerIngredient from '../burgerIngredient/burgerIngredient';
 
-import { getAllIngridients } from '../../services/actions/state';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 
@@ -14,12 +13,6 @@ const BurgerIngredients = ({onClick}) => {
     const [current, setCurrent] = useState('one');
 
     const { ingridients } = useSelector(state => state.ingridients);
-  
-    const dispatch = useDispatch();
-    
-   useEffect(() => {
-      dispatch(getAllIngridients())
-    }, [dispatch])
 
     const refBun = useRef();
     const refSauce = useRef();
@@ -72,7 +65,6 @@ const BurgerIngredients = ({onClick}) => {
                 <div ref={refBun} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
                     <h2 className={`mb-6 text text_type_main-medium 1`}>Булки</h2>
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
-
                         {ingridients.filter(item => item.type === "bun").map((item) => (
                             <BurgerIngredient onClick={onClick} item={item} key={item._id} id={item._id}/>
                         ))} 

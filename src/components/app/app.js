@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect }  from 'react';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,6 +13,7 @@ import OrderDetails from '../orderDetails/orderDetails';
 import IngredientDetails from '../ingredientDetails/ingredientDetails';
 
 import { getOrderNumber } from '../../services/actions/state';
+import { getAllIngridients } from '../../services/actions/state';
 
 import { 
     OPEN_INGRIDIENT_DATA, 
@@ -31,22 +32,28 @@ const App = (props) => {
 
     const buttonElement = React.useRef(null);
 
-    const handleOpenModal = (e) => {
+    useEffect(() => {
+        dispatch(getAllIngridients()) 
+      }, [dispatch])
+
+    const handleOpenOrderModal = (e) => {
         const orderIngredientsIds = { 
             "ingredients": constructorIngridientsId
         };
 
-        if (e.currentTarget === buttonElement.current.childNodes[0]) {
-            dispatch({
-                type: OPEN_ORDER_DATA,
-            });
-            dispatch(getOrderNumber(orderIngredientsIds) );
-        } else {
-            dispatch({
-                type: OPEN_INGRIDIENT_DATA,
-                indridientId: e.currentTarget.id
-            });
-        }
+        dispatch({
+            type: OPEN_ORDER_DATA,
+        });
+
+        dispatch(getOrderNumber(orderIngredientsIds));
+       
+    }
+
+    const handleOpenIndredientModal = (e) => {
+        dispatch({
+            type: OPEN_INGRIDIENT_DATA,
+            indridientId: e.currentTarget.id
+        });
     }
     
     const handleCloseModal = () => {
@@ -64,9 +71,9 @@ const App = (props) => {
             <div className={appStyles.app__container}>
 
                 <DndProvider backend={HTML5Backend}>
-                    <BurgerIngredients onClick={handleOpenModal}/>
+                    <BurgerIngredients onClick={handleOpenIndredientModal}/>
                     
-                    <BurgerConstructor ref={buttonElement} onClick={handleOpenModal} />
+                    <BurgerConstructor ref={buttonElement} onClick={handleOpenOrderModal} />
                 </DndProvider>
 
                 {modalIngredientDetailsOpened && 

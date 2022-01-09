@@ -23,8 +23,16 @@ export const CLOSE_ORDER_DATA = 'CLOSE_ORDER_DATA';
 
 export const GET_ORDER_NUMBER = 'GET_ORDER_NUMBER';
 export const CONSTRUCTOR_INGREDIENTS_SORT = 'CONSTRUCTOR_INGREDIENTS_SORT';
+export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 
 const BASE_URL = 'https://norma.nomoreparties.space/api';
+
+function checkResponse(res) {
+  if (res.ok) {
+      return res.json();
+  }
+  return Promise.reject(`Ошибка ${res.status}`);
+}
 
 export function getOrderNumber(orderIngredientsIds) {
   return function(dispatch) {
@@ -38,13 +46,16 @@ export function getOrderNumber(orderIngredientsIds) {
                           },
                       body: JSON.stringify(orderIngredientsIds)
                   })
-    .then(res => res.json())
+    .then(checkResponse)
     .then(res => {
       if (res && res.success) {
         dispatch({
           type: GET_ORDER_NUMBER_SUCCESS,
           orderNumber: res.order.number
         })
+        dispatch({
+          type: CLEAR_CONSTRUCTOR,
+      });
       } else {
         dispatch({
           type: GET_ORDER_NUMBER_FAILED
@@ -64,7 +75,8 @@ export function getAllIngridients() {
     dispatch({
       type: GET_ORDER_NUMBER_REQUEST
     })
-    fetch(`${BASE_URL}/ingredients`).then(res => res.json())
+    fetch(`${BASE_URL}/ingredients`)
+    .then(checkResponse)
     .then(res => {
       if (res && res.success) {
         dispatch({

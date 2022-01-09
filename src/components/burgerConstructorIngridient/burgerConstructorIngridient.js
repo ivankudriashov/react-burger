@@ -8,6 +8,8 @@ import { ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burge
 
 import { useDispatch } from 'react-redux';
 
+import {ingredientType} from '../utils/types';
+
 import { 
     GET_INGRIDIENTS_CONSTRUCTOR,
     CONSTRUCTOR_INGREDIENTS_SORT
@@ -69,7 +71,7 @@ const BurgerConstructorIngridient = ({deleteIngridient, item, id, index}) => {
     const dragDropRef = drag(drop(ref));
 
     return (
-        <li ref={dragDropRef} className={`${burgerConstructorIngridientStyles.burgerConstructorIngridient} `} key={item.secondId}>
+        <li ref={dragDropRef} className={`${burgerConstructorIngridientStyles.burgerConstructorIngridient}`} >
             <DragIcon  type="primary" />
             <ConstructorElement
                 handleClose={() => {
@@ -87,20 +89,7 @@ BurgerConstructorIngridient.propTypes = {
     deleteIngridient: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
-    item: PropTypes.shape({
-        _id: PropTypes.string,
-        name: PropTypes.string,
-        type: PropTypes.string,
-        proteins: PropTypes.number,
-        fat: PropTypes.number,
-        carbohydrates: PropTypes.number,
-        calories: PropTypes.number,
-        price: PropTypes.number,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large: PropTypes.string,
-        __v: PropTypes.number
-      }).isRequired,
+    item: ingredientType.isRequired,
 };
 
 export default BurgerConstructorIngridient;
