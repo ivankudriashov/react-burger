@@ -1,25 +1,108 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useMemo }  from 'react';
 import PropTypes from 'prop-types';
+import { useDrop, useDrag } from "react-dnd";
 
 import burgerConstructorStyles from './burgerConstructor.module.css';
 
-import { BurgerContext } from '../utils/appContext';
+import BurgerConstructorIngridient from '../burgerConstructorIngridient/burgerConstructorIngridient';
 
-import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
+import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const BurgerConstructor = React.forwardRef(({onClick, totalPrice}, ref) => {
+import { useSelector, useDispatch } from 'react-redux';
 
-    const { ingridients } = useContext(BurgerContext);
+import { 
+    GET_TOTAL_PRICE, 
+    DELETE_INGRIDIENT, 
+    GET_INGRIDIENTS_IDS,
+    GET_BUN_CONSTRUCTOR,
+    GET_OTHER_INGRIDIENTS_CONSTRUCTOR,
+    GET_INGRIDIENTS_CONSTRUCTOR } from '../../services/actions/state';
 
-    const bun = ingridients.find((item) => item.type === "bun");
+const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
+
+    const { ingridients }  = useSelector(state => state.ingridients);
+    const { constructorIngridients }  = useSelector(state => state.ingridients);
+    const { totalPrice }  = useSelector(state => state.ingridients);
+
+    console.log()
+
+    const dispatch = useDispatch();
+
+    const bun = constructorIngridients.find((item) => item.type === "bun");
+
+    function deleteIngridient(secondId, id) {
+        dispatch({
+            type: DELETE_INGRIDIENT,
+            secondId,
+            id
+        });
+    } 
+
+    const draggableIngredient = (id) => {
+        ingridients.forEach((ingridient) => {
+            if (ingridient._id === id) {
+
+                 if (ingridient.type === 'bun') {
+                    dispatch({
+                        type: GET_BUN_CONSTRUCTOR,
+                        bun: ingridient
+                    });
+
+                    dispatch({
+                        type: GET_INGRIDIENTS_CONSTRUCTOR,
+                    });
+                } else if (constructorIngridients[0]) {
+                    const uid = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
+
+                    dispatch({
+                        type: GET_OTHER_INGRIDIENTS_CONSTRUCTOR,
+                        otherIngridient: {...ingridient, secondId: uid()}
+                    });
+
+                    dispatch({
+                        type: GET_INGRIDIENTS_CONSTRUCTOR,
+                    });
+                }
+            }
+        })
+    }
+
+    const [, dropTarget] = useDrop({
+        accept: "ingredient",
+        drop({item}) {
+            draggableIngredient(item._id)
+        },
+    });
+
+    useEffect(
+        () => {
+            let total = 0;
+            constructorIngridients.map(item => (total += item.price));
+            dispatch({
+                type: GET_TOTAL_PRICE,
+                totalPrice: total
+            });
+
+            let ids = []
+            constructorIngridients.forEach((ingridient, index) => {
+                ids[index] = ingridient._id
+            })
+
+            dispatch({
+                type: GET_INGRIDIENTS_IDS,
+                constructorIngridientId: ids
+            });
+        },
+        [dispatch, constructorIngridients]
+    );
 
     return (
         <section className={`pt-25 ${burgerConstructorStyles.burgerConstructor} `}>
-            <div className={`${burgerConstructorStyles.burgerConstructor__wrapper} `} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>  
-                {bun && <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>              
+            <div ref={dropTarget} className={`${burgerConstructorStyles.burgerConstructor__wrapper} `} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>  
+                {bun && <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>
                     
                         <ConstructorElement
-                            key={bun._id}
+                            key={bun.secondId}
                             type="top"
                             isLocked={true}
                             text={`${bun.name} (верх)`}
@@ -29,21 +112,14 @@ const BurgerConstructor = React.forwardRef(({onClick, totalPrice}, ref) => {
                     
                 </div>}
                 { ingridients && <ul className={`pr-2 ${burgerConstructorStyles.burgerConstructor__mainIngridients} `}>
-                    {ingridients.filter(item => item.type === "main" || item.type === "sauce").map((item) => (
-                        <li className={`${burgerConstructorStyles.burgerConstructor__mainIngridient} `} key={item._id}>
-                            <DragIcon  type="primary" />
-                            <ConstructorElement
-                                text={`${item.name}`}
-                                price={`${item.price}`}
-                                thumbnail={`${item.image}`}
-                            />
-                        </li>
+                    {constructorIngridients.filter(item => item.type === "main" || item.type === "sauce").map((item, index) => (
+                        <BurgerConstructorIngridient item={item} deleteIngridient={deleteIngridient} key={item.secondId} index={index} id={item._id}/>
                     ))}
                 </ul> }
 
                 {bun && <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>
                         <ConstructorElement
-                            key={bun._id}
+                            key={bun.secondId}
                             type="bottom"
                             isLocked={true}
                             text={`${bun.name} (низ)`}

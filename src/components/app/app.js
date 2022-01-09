@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useEffect }  from 'react';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { useSelector, useDispatch } from 'react-redux';
+
 import appStyles from './app.module.css';
 
 import AppHeader from '../appHeader/appHeader';
@@ -8,125 +12,81 @@ import Modal from '../modal/modal';
 import OrderDetails from '../orderDetails/orderDetails';
 import IngredientDetails from '../ingredientDetails/ingredientDetails';
 
-import { BurgerContext } from '../utils/appContext';
+import { getOrderNumber } from '../../services/actions/state';
+import { getAllIngridients } from '../../services/actions/state';
 
-const BASE_URL = 'https://norma.nomoreparties.space/api';
+import { 
+    OPEN_INGRIDIENT_DATA, 
+    CLOSE_INGRIDIENT_DATA, 
+    OPEN_ORDER_DATA, 
+    CLOSE_ORDER_DATA, 
+} from '../../services/actions/state';
 
 const App = (props) => {
 
-    const [ingridients, setingridients] = React.useState([]);
-    const [selectedIngredientId, setSelectedIngredientId] = React.useState("");
+    const { constructorIngridientsId }  = useSelector(state => state.ingridients);
+    const { modalIngredientDetailsOpened }  = useSelector(state => state.ingridients);
+    const { modalOrderDetailsOpened }  = useSelector(state => state.ingridients);
 
-    const [constructorIngridients, setConstructorIngridients] = React.useState([]);
-
-    const [totalPrice, setTotalPrice] = React.useState([]);
-
-    const [orderNumber, setOrderNumber] = React.useState(0);
-
-    const [visiblity, setVisiblity] = React.useState(false); 
-    const [modalOrderDetailsOpened, setModalOrderDetailsOpened] = React.useState(false);
-    const [modalIngredientDetailsOpened, setModalIngredientDetailsOpened] = React.useState(false);
+    const dispatch = useDispatch();
 
     const buttonElement = React.useRef(null);
 
-    const getOrderNumber = function() {
-        let orderIngridientsArr = [];
+    useEffect(() => {
+        dispatch(getAllIngridients()) 
+      }, [dispatch])
 
-        constructorIngridients.forEach((item, i) => {
-            orderIngridientsArr[i] = item._id
-        })
-
+    const handleOpenOrderModal = (e) => {
         const orderIngredientsIds = { 
-            "ingredients": orderIngridientsArr
-        };
-        const getIngridients = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/orders`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                        },
-                    body: JSON.stringify(orderIngredientsIds)
-                })
-                const data = await res.json();
-                setOrderNumber(data.order.number);
-            } catch (error){
-                console.log("error", error);
-            }
+            "ingredients": constructorIngridientsId
         };
 
-        getIngridients();
+        dispatch({
+            type: OPEN_ORDER_DATA,
+        });
+
+        dispatch(getOrderNumber(orderIngredientsIds));
+       
     }
-    
-    const handleOpenModal = (e) => {
-        setVisiblity(true);
 
-        if (e.currentTarget === buttonElement.current.childNodes[0]) {
-            setModalOrderDetailsOpened(true);
-
-            getOrderNumber();
-
-        } else {
-            setModalIngredientDetailsOpened(true);
-        }
-
-        setSelectedIngredientId(e.currentTarget.id);
+    const handleOpenIndredientModal = (e) => {
+        dispatch({
+            type: OPEN_INGRIDIENT_DATA,
+            indridientId: e.currentTarget.id
+        });
     }
     
     const handleCloseModal = () => {
-        setVisiblity(false);
-        setModalIngredientDetailsOpened(false);
-        setModalOrderDetailsOpened(false);
-        setSelectedIngredientId("");
+        dispatch({
+            type: CLOSE_INGRIDIENT_DATA,
+        });
+        dispatch({
+            type: CLOSE_ORDER_DATA
+        });
     }
 
-    React.useEffect(() => {
-        const getOrderNumber = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/ingredients`);
-                const data = await res.json();
-                setingridients(data.data);
-                setConstructorIngridients(data.data);
-            }
-            catch (error){
-                console.log("error", error);
-            }
-        };
-        getOrderNumber();
-    }, []);
-
-    React.useEffect(
-        () => {
-            let total = 0;
-            constructorIngridients.map(item => (total += item.price));
-            setTotalPrice(total);
-        },
-        [constructorIngridients, setTotalPrice]
-    );
-
     return (
-        <BurgerContext.Provider value={{ ingridients }}>
-            <div className={appStyles.app}>
-                <AppHeader />
-                <div className={appStyles.app__container}>
-                
-                    <BurgerIngredients onClick={handleOpenModal} />
+        <div className={appStyles.app}>
+            <AppHeader />
+            <div className={appStyles.app__container}>
 
-                    <BurgerConstructor totalPrice={totalPrice} ref={buttonElement} onClick={handleOpenModal} />
+                <DndProvider backend={HTML5Backend}>
+                    <BurgerIngredients onClick={handleOpenIndredientModal}/>
+                    
+                    <BurgerConstructor ref={buttonElement} onClick={handleOpenOrderModal} />
+                </DndProvider>
 
-                    {visiblity && modalIngredientDetailsOpened && 
-                    <Modal onClose={handleCloseModal}>
-                        <IngredientDetails
-                        selectedIngredientId={selectedIngredientId}/>
-                    </Modal> }
+                {modalIngredientDetailsOpened && 
+                <Modal onClose={handleCloseModal}>
+                    <IngredientDetails/>
+                </Modal> }
 
-                    {visiblity && modalOrderDetailsOpened && 
-                    <Modal onClose={handleCloseModal}>
-                        <OrderDetails orderNumber={orderNumber}/>
-                    </Modal> }
-                </div>
+                {modalOrderDetailsOpened && 
+                <Modal onClose={handleCloseModal}>
+                    <OrderDetails/>
+                </Modal> }
             </div>
-        </BurgerContext.Provider>
+        </div>
     )
 }
   

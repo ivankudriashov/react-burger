@@ -6,6 +6,10 @@
     padding-bottom: 50px;
 }
 
+.burgerConstructor__wrapper {
+    min-height: 564px;
+}
+
 .burgerConstructor__mainIngridients {
     display: flex;
     flex-direction: column;
@@ -33,12 +37,6 @@
 
 .burgerConstructor__mainIngridients::-webkit-scrollbar-thumb:hover {
     background-color: #8585AD;
-}
-
-.burgerConstructor__mainIngridient {
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .burgerConstructor__order {

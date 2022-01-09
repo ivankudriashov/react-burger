@@ -1,15 +1,13 @@
-import { useContext } from 'react';
-import PropTypes from 'prop-types';
-
 import ingredientDetails from './ingredientDetails.module.css';
 
-import { BurgerContext } from '../utils/appContext';
+import { useSelector } from 'react-redux';
 
-const IngredientDetails = ({selectedIngredientId}) => {
+const IngredientDetails = () => {
 
-    const { ingridients } = useContext(BurgerContext);
-    
-    const clickedIngridient = ingridients.filter(item => item._id === selectedIngredientId);
+    const { indridientId }  = useSelector(state => state.ingridients);
+    const { ingridients } = useSelector(state => state.ingridients);
+
+    const clickedIngridient = ingridients.filter(item => item._id === indridientId);
 
     return (
         <div className={`pt-10 pb-15 ${ingredientDetails.ingredientDetails}`}>
@@ -37,10 +35,5 @@ const IngredientDetails = ({selectedIngredientId}) => {
         </div>
     )
 }
-
-IngredientDetails.propTypes = {
-    selectedIngredientId: PropTypes.string.isRequired
-};
-
 
 export default IngredientDetails;

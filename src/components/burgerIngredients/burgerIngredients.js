@@ -1,20 +1,41 @@
-import React, { useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 
-import { BurgerContext } from '../utils/appContext';
+import BurgerIngredient from '../burgerIngredient/burgerIngredient';
 
-import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useSelector } from 'react-redux';
+
+import { Tab} from '@ya.praktikum/react-developer-burger-ui-components'
+
 
 const BurgerIngredients = ({onClick}) => {
-    const [current, setCurrent] = React.useState('one');
+    const [current, setCurrent] = useState('one');
 
-    const { ingridients } = useContext(BurgerContext);
+    const { ingridients } = useSelector(state => state.ingridients);
 
-    const refBun = React.createRef();
-    const refSauce = React.createRef();
-    const refMain = React.createRef();
+    const refBun = useRef();
+    const refSauce = useRef();
+    const refMain = useRef();
+
+    const scrollTab = (e) => {
+        const listTop = e.target.getBoundingClientRect().top;
+
+        const bunTop = refBun.current.getBoundingClientRect().top;
+        const bunBottom = refBun.current.getBoundingClientRect().bottom;
+        const sauceTop = refSauce.current.getBoundingClientRect().top;
+        const sauceBottom = refSauce.current.getBoundingClientRect().bottom;
+        const mainTop = refMain.current.getBoundingClientRect().top;
+        const mainBottom = refMain.current.getBoundingClientRect().bottom;
+
+        if (listTop >= bunTop && listTop < bunBottom) {
+            setCurrent('one');
+        } else if (listTop >= sauceTop && listTop < sauceBottom) {
+            setCurrent('two');
+        } else if (listTop >= mainTop && listTop < mainBottom) {
+            setCurrent('three');
+        }
+    }
 
     return (
         <section className={`mr-10 ml-5 ${burgerIngredientsStyles.burgerIngredients} `}>
@@ -40,21 +61,13 @@ const BurgerIngredients = ({onClick}) => {
                 </Tab>
             </div>
 
-            <div className={`${burgerIngredientsStyles.burgerIngredients__scrollWrapper}`}>
+            <div className={`${burgerIngredientsStyles.burgerIngredients__scrollWrapper}`} onScroll={scrollTab}>
                 <div ref={refBun} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
-                    <h2 className={`mb-6 text text_type_main-medium 1`}>Булки</h2>                
+                    <h2 className={`mb-6 text text_type_main-medium 1`}>Булки</h2>
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
                         {ingridients.filter(item => item.type === "bun").map((item) => (
-                            <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={item._id}>
-                                <Counter count={1} size="default" />
-                                <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
-                                <div className={`mb-2 ${burgerIngredientsStyles.burgerIngredients__price}`}>
-                                    <p className={`mr-2 text text_type_digits-default`}>{item.price}</p>
-                                    <CurrencyIcon type="primary" />
-                                </div>
-                                <p className="mb-8 text text_type_main-default">{item.name}</p>
-                            </li>
-                        ))}
+                            <BurgerIngredient onClick={onClick} item={item} key={item._id} id={item._id}/>
+                        ))} 
                     </ul>
                 </div>
 
@@ -62,15 +75,7 @@ const BurgerIngredients = ({onClick}) => {
                     <h2 className={`mb-6 text text_type_main-medium 2`}>Соусы</h2>                
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
                         {ingridients.filter(item => item.type === "sauce").map((item) => (
-                            <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={item._id}>
-                                <Counter count={1} size="default" />
-                                <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
-                                <div className={`mb-2 ${burgerIngredientsStyles.burgerIngredients__price}`}>
-                                    <p className={`mr-2 text text_type_digits-default`}>{item.price}</p>
-                                    <CurrencyIcon type="primary" />
-                                </div>
-                                <p className={`mb-8 text text_type_main-default ${burgerIngredientsStyles.burgerIngredients__ingredientName}`}>{item.name}</p>
-                            </li>
+                            <BurgerIngredient onClick={onClick} item={item} key={item._id} id={item._id}/>
                         ))}
                     </ul> 
                 </div>
@@ -79,15 +84,7 @@ const BurgerIngredients = ({onClick}) => {
                     <h2 className={`mb-6 text text_type_main-medium 3`}>Основные ингридиенты</h2>                
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
                         {ingridients.filter(item => item.type === "main").map((item) => (
-                            <li onClick={onClick} id={item._id} className={`mr-2 ml-2 ${burgerIngredientsStyles.burgerIngredients__item}`} key={item._id}>
-                                <Counter count={1} size="default" />
-                                <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
-                                <div className={`mb-2 ${burgerIngredientsStyles.burgerIngredients__price}`}>
-                                    <p className={`mr-2 text text_type_digits-default`}>{item.price}</p>
-                                    <CurrencyIcon type="primary" />
-                                </div>
-                                <p className={`mb-8 text text_type_main-default ${burgerIngredientsStyles.burgerIngredients__ingredientName}`}>{item.name}</p>
-                            </li>
+                            <BurgerIngredient onClick={onClick} item={item} key={item._id} id={item._id}/>
                         ))}
                     </ul> 
                 </div>
