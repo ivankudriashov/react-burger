@@ -18,7 +18,7 @@ import {
     GET_INGRIDIENTS_CONSTRUCTOR 
 } from '../../services/actions/state';
 
-import { TItem, TItemDrop, TFunc } from '../../services/types/types';
+import { TItemDrop, TFunc } from '../../services/types/types';
 
 const BurgerConstructor = React.forwardRef<HTMLDivElement, TFunc>(({onClick}, ref) => {
 
@@ -79,7 +79,7 @@ const BurgerConstructor = React.forwardRef<HTMLDivElement, TFunc>(({onClick}, re
     useEffect(
         () => {
             let total = 0;
-            constructorIngridients.map((item: { price: number; }) => (total += item.price));
+            constructorIngridients.map((item) => (total += item.price));
             dispatch({
                 type: GET_TOTAL_PRICE,
                 totalPrice: total
@@ -114,7 +114,7 @@ const BurgerConstructor = React.forwardRef<HTMLDivElement, TFunc>(({onClick}, re
                     
                 </div>}
                 { ingridients && <ul className={`pr-2 ${burgerConstructorStyles.burgerConstructor__mainIngridients} `}>
-                    {constructorIngridients.filter((item: { type: string; }) => item.type === "main" || item.type === "sauce").map((item: TItem, index: number) => (
+                    {constructorIngridients.filter((item) => item.type === "main" || item.type === "sauce").map((item, index) => (
                         <BurgerConstructorIngridient item={item} deleteIngridient={deleteIngridient} key={item.secondId} index={index} id={item._id}/>
                     ))}
                 </ul> }

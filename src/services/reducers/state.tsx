@@ -278,8 +278,8 @@ export const ingridientsReducer = (state = initialState, action: TActions): TIni
     case DELETE_INGRIDIENT: {
       return {
         ...state,
-        constructorIngridients: [...state.constructorIngridients].filter((item: TItem) => item.secondId !== action.secondId),
-        otherIngridients: [...state.otherIngridients].filter((item: TItem) => item.secondId !== action.secondId),
+        constructorIngridients: [...state.constructorIngridients].filter((item) => item.secondId !== action.secondId),
+        otherIngridients: [...state.otherIngridients].filter((item) => item.secondId !== action.secondId),
       };
     }
 

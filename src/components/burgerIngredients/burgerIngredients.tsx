@@ -8,8 +8,6 @@ import { Tab} from '@ya.praktikum/react-developer-burger-ui-components'
 
 import { useSelector } from '../../services/types/types';
 
-import { TItem } from '../../services/types/types';
-
 const BurgerIngredients: FC<{
     onClick(event: React.MouseEvent<HTMLLIElement>): void;
 }> = ({onClick}) => {
@@ -68,7 +66,7 @@ const BurgerIngredients: FC<{
                 <div ref={refBun} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
                     <h2 className={`mb-6 text text_type_main-medium 1`}>Булки</h2>
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
-                        {ingridients.filter((item: TItem) => item.type === "bun").map((item: TItem) => (
+                        {ingridients.filter((item) => item.type === "bun").map((item) => (
                             <BurgerIngredient onClick={onClick} item={item} key={item._id} id={item._id}/>
                         ))} 
                     </ul>
@@ -77,7 +75,7 @@ const BurgerIngredients: FC<{
                 <div ref={refSauce} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
                     <h2 className={`mb-6 text text_type_main-medium 2`}>Соусы</h2>                
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
-                        {ingridients.filter((item: TItem) => item.type === "sauce").map((item: TItem) => (
+                        {ingridients.filter((item) => item.type === "sauce").map((item) => (
                             <BurgerIngredient onClick={onClick} item={item} key={item._id} id={item._id}/>
                         ))}
                     </ul> 
@@ -86,7 +84,7 @@ const BurgerIngredients: FC<{
                 <div ref={refMain} className={`pt-10 ${burgerIngredientsStyles.burgerIngredients__ingredients}`}>
                     <h2 className={`mb-6 text text_type_main-medium 3`}>Основные ингридиенты</h2>                
                     <ul className={`pl-2 ${burgerIngredientsStyles.burgerIngredients__items}`}>
-                        {ingridients.filter((item: TItem) => item.type === "main").map((item: TItem) => (
+                        {ingridients.filter((item) => item.type === "main").map((item) => (
                             <BurgerIngredient onClick={onClick} item={item} key={item._id} id={item._id}/>
                         ))}
                     </ul> 
