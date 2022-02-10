@@ -1,14 +1,14 @@
-import React, { useEffect, useMemo }  from 'react';
+import React, { useEffect }  from 'react';
 import PropTypes from 'prop-types';
-import { useDrop, useDrag } from "react-dnd";
+import { useDrop } from "react-dnd";
 
 import burgerConstructorStyles from './burgerConstructor.module.css';
 
 import BurgerConstructorIngridient from '../burgerConstructorIngridient/burgerConstructorIngridient';
 
-import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/types/types';
 
 import { 
     GET_TOTAL_PRICE, 
@@ -16,9 +16,12 @@ import {
     GET_INGRIDIENTS_IDS,
     GET_BUN_CONSTRUCTOR,
     GET_OTHER_INGRIDIENTS_CONSTRUCTOR,
-    GET_INGRIDIENTS_CONSTRUCTOR } from '../../services/actions/state';
+    GET_INGRIDIENTS_CONSTRUCTOR 
+} from '../../services/actions/state';
 
-const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
+import { TItem, TItemDrop, TFunc } from '../../services/types/types';
+
+const BurgerConstructor = React.forwardRef<HTMLDivElement, TFunc>(({onClick}, ref) => {
 
     const { ingridients }  = useSelector(state => state.ingridients);
     const { constructorIngridients }  = useSelector(state => state.ingridients);
@@ -28,9 +31,9 @@ const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
 
     const dispatch = useDispatch();
 
-    const bun = constructorIngridients.find((item) => item.type === "bun");
+    const bun = constructorIngridients.find((item: { type: string; }) => item.type === "bun");
 
-    function deleteIngridient(secondId, id) {
+    function deleteIngridient(secondId: string, id: string) {
         dispatch({
             type: DELETE_INGRIDIENT,
             secondId,
@@ -38,8 +41,8 @@ const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
         });
     } 
 
-    const draggableIngredient = (id) => {
-        ingridients.forEach((ingridient) => {
+    const draggableIngredient = (id: string) => {
+        ingridients.forEach((ingridient: { _id: string; type: string; }) => {
             if (ingridient._id === id) {
 
                  if (ingridient.type === 'bun') {
@@ -69,7 +72,7 @@ const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
 
     const [, dropTarget] = useDrop({
         accept: "ingredient",
-        drop({item}) {
+        drop({item}: TItemDrop) {
             draggableIngredient(item._id)
         },
     });
@@ -77,14 +80,14 @@ const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
     useEffect(
         () => {
             let total = 0;
-            constructorIngridients.map(item => (total += item.price));
+            constructorIngridients.map((item: { price: number; }) => (total += item.price));
             dispatch({
                 type: GET_TOTAL_PRICE,
                 totalPrice: total
             });
 
-            let ids = []
-            constructorIngridients.forEach((ingridient, index) => {
+            let ids: string[] = []
+            constructorIngridients.forEach((ingridient: { _id: string; }, index: number) => {
                 ids[index] = ingridient._id
             })
 
@@ -106,13 +109,13 @@ const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
                             type="top"
                             isLocked={true}
                             text={`${bun.name} (верх)`}
-                            price={`${bun.price}`}
+                            price={bun.price}
                             thumbnail={`${bun.image}`}
                         />
                     
                 </div>}
                 { ingridients && <ul className={`pr-2 ${burgerConstructorStyles.burgerConstructor__mainIngridients} `}>
-                    {constructorIngridients.filter(item => item.type === "main" || item.type === "sauce").map((item, index) => (
+                    {constructorIngridients.filter((item: { type: string; }) => item.type === "main" || item.type === "sauce").map((item: TItem, index: number) => (
                         <BurgerConstructorIngridient item={item} deleteIngridient={deleteIngridient} key={item.secondId} index={index} id={item._id}/>
                     ))}
                 </ul> }
@@ -123,7 +126,7 @@ const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
                             type="bottom"
                             isLocked={true}
                             text={`${bun.name} (низ)`}
-                            price={`${bun.price}`}
+                            price={bun.price}
                             thumbnail={`${bun.image}`}
                         />
                 </div>}
@@ -145,8 +148,8 @@ const BurgerConstructor = React.forwardRef(({onClick}, ref) => {
     );
 });
 
-BurgerConstructor.propTypes = {
-    onClick: PropTypes.func.isRequired
-};
+// BurgerConstructor.propTypes = {
+//     onClick: PropTypes.func.isRequired
+// };
 
 export default BurgerConstructor;

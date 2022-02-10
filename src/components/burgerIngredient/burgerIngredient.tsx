@@ -1,21 +1,30 @@
+import React, { FC }  from 'react';
 import { useDrag } from "react-dnd";
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import burgerIngredientStyles from './burgerIngredient.module.css';
 
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import {ingredientType} from '../utils/types';
+// import {ingredientType} from '../utils/types';
 
-const BurgerIngredient = ({onClick, item, id}) => {
+import { useSelector } from '../../services/types/types';
+
+import { TItem } from '../../services/types/types';
+
+const BurgerIngredient: FC<{
+    onClick(event: React.MouseEvent<HTMLLIElement>): void
+    item: TItem;
+    id: string;
+}> = ({onClick, item, id}) => {
     const { constructorIngridientsId }  = useSelector(state => state.ingridients);
 
-    function getCount(ingredient) {
+    function getCount(ingredient: TItem) {
         let count = 0;
 
-        constructorIngridientsId.forEach(item => {
-            if (item === ingredient._id) {
+        constructorIngridientsId.forEach((id: string) => {
+            if (id === ingredient._id) {
                 if(ingredient.type === "bun") {
                     count = 2
                 } else {
@@ -45,10 +54,10 @@ const BurgerIngredient = ({onClick, item, id}) => {
     );
 }
 
-BurgerIngredient.propTypes = {
-    onClick: PropTypes.func.isRequired,
-    item: ingredientType.isRequired,
-    id: PropTypes.string.isRequired,
-};
+// BurgerIngredient.propTypes = {
+//     onClick: PropTypes.func.isRequired,
+//     item: ingredientType.isRequired,
+//     id: PropTypes.string.isRequired,
+// };
 
 export default BurgerIngredient;

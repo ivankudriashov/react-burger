@@ -8,14 +8,20 @@ import modalStyles from './modal.module.css';
 
 import ModalOverlay from '../modalOverlay/modalOverlay';
 
-const modalRoot = document.getElementById("root");
+import { FC, useEffect } from 'react';
 
-const Modal = (props) => {
-  
-    const { onClose } = props;
+import { TModalProps } from '../../services/types/types';
 
-    React.useEffect(() => {
-        const close = (e) => {
+const modalRoot = document.getElementById("react-modals");
+
+const Modal: FC<TModalProps> = ({onClose, children}) => {
+
+  if (!modalRoot) {
+    throw new Error("The element #portal wasn't found");
+  }
+
+    useEffect(() => {
+        const close = (e: { key: string; }) => {
           if(e.key === "Escape"){
             onClose();
           }
@@ -32,7 +38,7 @@ const Modal = (props) => {
                 <div className={modalStyles.cross} onClick={onClose}>
                     <CloseIcon type="primary"/>
                 </div>
-                {props.children}
+                {children}
             </div>
         </div>
       ),

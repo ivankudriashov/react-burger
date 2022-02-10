@@ -1,7 +1,7 @@
 import React, { useEffect }  from 'react';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 
 import appStyles from './app.module.css';
 
@@ -22,7 +22,9 @@ import {
     CLOSE_ORDER_DATA, 
 } from '../../services/actions/state';
 
-const App = (props) => {
+import { useSelector, useDispatch } from '../../services/types/types';
+
+const App = () => {
 
     const { constructorIngridientsId }  = useSelector(state => state.ingridients);
     const { modalIngredientDetailsOpened }  = useSelector(state => state.ingridients);
@@ -36,7 +38,8 @@ const App = (props) => {
         dispatch(getAllIngridients()) 
       }, [dispatch])
 
-    const handleOpenOrderModal = (e) => {
+    const handleOpenOrderModal = () => {
+
         const orderIngredientsIds = { 
             "ingredients": constructorIngridientsId
         };
@@ -49,7 +52,7 @@ const App = (props) => {
        
     }
 
-    const handleOpenIndredientModal = (e) => {
+    const handleOpenIndredientModal = (e: React.MouseEvent<HTMLLIElement>): void => {
         dispatch({
             type: OPEN_INGRIDIENT_DATA,
             indridientId: e.currentTarget.id

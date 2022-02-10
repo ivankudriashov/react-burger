@@ -1,10 +1,10 @@
-import React, { useRef }  from 'react';
+import React, { useRef, FC, LiHTMLAttributes }  from 'react';
 import PropTypes from 'prop-types';
 import { useDrop, useDrag } from "react-dnd";
 
 import burgerConstructorIngridientStyles from './burgerConstructorIngridient.module.css';
 
-import { ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useDispatch } from 'react-redux';
 
@@ -13,13 +13,20 @@ import {ingredientType} from '../utils/types';
 import { 
     GET_INGRIDIENTS_CONSTRUCTOR,
     CONSTRUCTOR_INGREDIENTS_SORT
- } from '../../services/actions/state';
+} from '../../services/actions/state';
 
-const BurgerConstructorIngridient = ({deleteIngridient, item, id, index}) => {
+import { TItem } from '../../services/types/types';
+
+const BurgerConstructorIngridient: FC<{
+    deleteIngridient(secondId: string, id: string): void;
+    item: TItem;
+    id: string,
+    index: number
+}> = ({deleteIngridient, item, id, index}) => {
 
     const dispatch = useDispatch();
 
-    const moveIngredient = (dragIndex, hoverIndex) => {
+    const moveIngredient = (dragIndex: any, hoverIndex: any) => {
         dispatch({
             type: CONSTRUCTOR_INGREDIENTS_SORT,
             dragIndex,
@@ -31,10 +38,11 @@ const BurgerConstructorIngridient = ({deleteIngridient, item, id, index}) => {
         });
     };
 
-    const ref = useRef(null);
+    const ref = useRef<HTMLLIElement>(null);
+
     const [, drop] = useDrop({
         accept: 'sortIngridients-item',
-        hover(item, monitor) {
+        hover(item: {index: number}, monitor) {
             if (!ref.current) {
                 return;
             }
@@ -46,7 +54,7 @@ const BurgerConstructorIngridient = ({deleteIngridient, item, id, index}) => {
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
             const clientOffset = monitor.getClientOffset();
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+            const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return;
             }
@@ -68,28 +76,28 @@ const BurgerConstructorIngridient = ({deleteIngridient, item, id, index}) => {
         },
     });
 
-    const dragDropRef = drag(drop(ref));
+    drag(drop(ref));
 
     return (
-        <li ref={dragDropRef} className={`${burgerConstructorIngridientStyles.burgerConstructorIngridient}`} >
+        <li ref={ref} className={`${burgerConstructorIngridientStyles.burgerConstructorIngridient}`} >
             <DragIcon  type="primary" />
             <ConstructorElement
                 handleClose={() => {
                     deleteIngridient(item.secondId, item._id)
                 }}
                 text={`${item.name}`}
-                price={`${item.price}`}
+                price={item.price}
                 thumbnail={`${item.image}`}
             />
         </li>
     );
 };
 
-BurgerConstructorIngridient.propTypes = {
-    deleteIngridient: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
-    item: ingredientType.isRequired,
-};
+// BurgerConstructorIngridient.propTypes = {
+//     deleteIngridient: PropTypes.func.isRequired,
+//     id: PropTypes.string.isRequired,
+//     index: PropTypes.number.isRequired,
+//     item: ingredientType.isRequired,
+// };
 
 export default BurgerConstructorIngridient;

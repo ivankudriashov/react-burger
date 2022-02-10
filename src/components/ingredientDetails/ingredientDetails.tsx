@@ -1,13 +1,13 @@
 import ingredientDetails from './ingredientDetails.module.css';
 
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/types/types';
 
 const IngredientDetails = () => {
 
     const { indridientId }  = useSelector(state => state.ingridients);
     const { ingridients } = useSelector(state => state.ingridients);
 
-    const clickedIngridient = ingridients.filter(item => item._id === indridientId);
+    const clickedIngridient = ingridients.filter((item: { _id: string; }) => item._id === indridientId);
 
     return (
         <div className={`pt-10 pb-15 ${ingredientDetails.ingredientDetails}`}>
