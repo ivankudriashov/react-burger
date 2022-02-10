@@ -1,6 +1,4 @@
-import React from 'react';
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types';
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
@@ -20,34 +18,30 @@ const Modal: FC<TModalProps> = ({onClose, children}) => {
     throw new Error("The element #portal wasn't found");
   }
 
-    useEffect(() => {
-        const close = (e: { key: string; }) => {
-          if(e.key === "Escape"){
-            onClose();
-          }
+  useEffect(() => {
+      const close = (e: { key: string; }) => {
+        if(e.key === "Escape"){
+          onClose();
         }
-        window.addEventListener('keydown', close)
-      return () => window.removeEventListener('keydown', close)
-    },[]);
+      }
+      window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+  },[onClose]);
 
-    return ReactDOM.createPortal((
-        <div className={modalStyles.popup} onClick={onClose}>
-            <ModalOverlay />
-            <div className={modalStyles.modal} onClick={(evt) => {
-                evt.stopPropagation()}}>
-                <div className={modalStyles.cross} onClick={onClose}>
-                    <CloseIcon type="primary"/>
-                </div>
-                {children}
-            </div>
-        </div>
-      ),
-      modalRoot
-    )
+  return ReactDOM.createPortal((
+      <div className={modalStyles.popup} onClick={onClose}>
+          <ModalOverlay />
+          <div className={modalStyles.modal} onClick={(evt) => {
+              evt.stopPropagation()}}>
+              <div className={modalStyles.cross} onClick={onClose}>
+                  <CloseIcon type="primary"/>
+              </div>
+              {children}
+          </div>
+      </div>
+    ),
+    modalRoot
+  )
 }
-
-Modal.propTypes = {
-  onClose: PropTypes.func.isRequired
-};
 
 export default Modal;

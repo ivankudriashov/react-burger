@@ -19,6 +19,7 @@ import {
   CLOSE_ORDER_DATA,
 
   GET_ORDER_NUMBER_SUCCESS,
+  GET_ORDER_NUMBER_FAILED
 } from '../actions/state';
 
 import { TItem, TInitialState } from '../types/types';
@@ -74,6 +75,10 @@ interface IGetOrderNumberSuccessAction {
   readonly orderNumber: string;
 }
 
+interface IGetOrderNumberFailedAction {
+  readonly type: typeof GET_ORDER_NUMBER_FAILED;
+}
+
 interface IGetIngridientsIdsAction {
   readonly type: typeof GET_INGRIDIENTS_IDS;
   readonly constructorIngridientsId: Array<string>;
@@ -116,6 +121,7 @@ interface IClearConstructorAction {
   readonly constructorIngridients: TItem[];
   readonly otherIngridients: TItem[];
   readonly buns: TItem[];
+  readonly orderNumber: string
 }
 
 export type TActions = 
@@ -128,6 +134,7 @@ export type TActions =
   | ICloseOrderDataAction
   | IGetTotalPriceAction
   | IGetOrderNumberSuccessAction
+  | IGetOrderNumberFailedAction
   | IGetIngridientsIdsAction
   | IGetIngridientsConstructorAction
   | IConstructorIngridientsSortAction
@@ -223,6 +230,12 @@ export const ingridientsReducer = (state = initialState, action: TActions): TIni
       };
     }
 
+    case GET_ORDER_NUMBER_FAILED: {
+      return {
+        ...state
+      };
+    }
+
     case GET_INGRIDIENTS_IDS: {
       return {
         ...state,
@@ -275,7 +288,8 @@ export const ingridientsReducer = (state = initialState, action: TActions): TIni
         ...state,
         constructorIngridients: [],
         buns: [],
-        otherIngridients: []
+        otherIngridients: [],
+        orderNumber: ''
       };
     }
 

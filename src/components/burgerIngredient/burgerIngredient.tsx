@@ -1,13 +1,8 @@
 import React, { FC }  from 'react';
 import { useDrag } from "react-dnd";
-// import PropTypes from 'prop-types';
 import burgerIngredientStyles from './burgerIngredient.module.css';
 
-// import { useSelector } from 'react-redux';
-
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
-
-// import {ingredientType} from '../utils/types';
 
 import { useSelector } from '../../services/types/types';
 
@@ -42,22 +37,16 @@ const BurgerIngredient: FC<{
     });
 
     return (
-            <li ref={dragRef} onClick={onClick} key={item._id} id={id} className={`mr-2 ml-2 ${burgerIngredientStyles.burgerIngredient}`} >
-                <Counter count={getCount(item)} size="default" />
-                <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
-                <div className={`mb-2 ${burgerIngredientStyles.burgerIngredient__price}`}>
-                    <p className={`mr-2 text text_type_digits-default`}>{item.price}</p>
-                    <CurrencyIcon type="primary" />
-                </div>
-                <p className="mb-8 text text_type_main-default">{item.name}</p>
-            </li>
+        <li ref={dragRef} onClick={onClick} key={item._id} id={id} className={`mr-2 ml-2 ${burgerIngredientStyles.burgerIngredient}`} >
+            <Counter count={getCount(item)} size="default" />
+            <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
+            <div className={`mb-2 ${burgerIngredientStyles.burgerIngredient__price}`}>
+                <p className={`mr-2 text text_type_digits-default`}>{item.price}</p>
+                <CurrencyIcon type="primary" />
+            </div>
+            <p className="mb-8 text text_type_main-default">{item.name}</p>
+        </li>
     );
 }
-
-// BurgerIngredient.propTypes = {
-//     onClick: PropTypes.func.isRequired,
-//     item: ingredientType.isRequired,
-//     id: PropTypes.string.isRequired,
-// };
 
 export default BurgerIngredient;

@@ -1,7 +1,6 @@
 import React, { useEffect }  from 'react';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-// import { useSelector, useDispatch } from 'react-redux';
 
 import appStyles from './app.module.css';
 
@@ -20,6 +19,7 @@ import {
     CLOSE_INGRIDIENT_DATA, 
     OPEN_ORDER_DATA, 
     CLOSE_ORDER_DATA, 
+    CLEAR_CONSTRUCTOR
 } from '../../services/actions/state';
 
 import { useSelector, useDispatch } from '../../services/types/types';
@@ -36,7 +36,7 @@ const App = () => {
 
     useEffect(() => {
         dispatch(getAllIngridients()) 
-      }, [dispatch])
+    }, [dispatch])
 
     const handleOpenOrderModal = () => {
 
@@ -59,12 +59,19 @@ const App = () => {
         });
     }
     
-    const handleCloseModal = () => {
+    const handleCloseIndredientModal = () => {
         dispatch({
             type: CLOSE_INGRIDIENT_DATA,
         });
+    }
+
+    const handleCloseOrderModal = () => {
         dispatch({
             type: CLOSE_ORDER_DATA
+        });
+
+        dispatch({
+            type: CLEAR_CONSTRUCTOR
         });
     }
 
@@ -80,12 +87,12 @@ const App = () => {
                 </DndProvider>
 
                 {modalIngredientDetailsOpened && 
-                <Modal onClose={handleCloseModal}>
+                <Modal onClose={handleCloseIndredientModal}>
                     <IngredientDetails/>
                 </Modal> }
 
                 {modalOrderDetailsOpened && 
-                <Modal onClose={handleCloseModal}>
+                <Modal onClose={handleCloseOrderModal}>
                     <OrderDetails/>
                 </Modal> }
             </div>

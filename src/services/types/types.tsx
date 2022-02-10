@@ -8,7 +8,6 @@ import { AppDispatch, AppThunk, RootState } from '../actions/state';
   
 
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  
 
 export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>(); 
 
@@ -40,7 +39,6 @@ export type TInitialState = {
   modalIngredientDetailsOpened: boolean;
   indridientId: string;
   modalOrderDetailsOpened: boolean;
-
   orderNumber: string;
 }
 

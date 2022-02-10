@@ -1,14 +1,11 @@
-import React, { useRef, FC, LiHTMLAttributes }  from 'react';
-import PropTypes from 'prop-types';
+import { useRef, FC }  from 'react';
 import { useDrop, useDrag } from "react-dnd";
 
 import burgerConstructorIngridientStyles from './burgerConstructorIngridient.module.css';
 
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useDispatch } from 'react-redux';
-
-import {ingredientType} from '../utils/types';
+import { useDispatch } from '../../services/types/types';
 
 import { 
     GET_INGRIDIENTS_CONSTRUCTOR,
@@ -26,7 +23,7 @@ const BurgerConstructorIngridient: FC<{
 
     const dispatch = useDispatch();
 
-    const moveIngredient = (dragIndex: any, hoverIndex: any) => {
+    const moveIngredient = (dragIndex: number, hoverIndex: number) => {
         dispatch({
             type: CONSTRUCTOR_INGREDIENTS_SORT,
             dragIndex,
@@ -92,12 +89,5 @@ const BurgerConstructorIngridient: FC<{
         </li>
     );
 };
-
-// BurgerConstructorIngridient.propTypes = {
-//     deleteIngridient: PropTypes.func.isRequired,
-//     id: PropTypes.string.isRequired,
-//     index: PropTypes.number.isRequired,
-//     item: ingredientType.isRequired,
-// };
 
 export default BurgerConstructorIngridient;

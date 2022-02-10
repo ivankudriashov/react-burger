@@ -1,5 +1,4 @@
 import React, { useEffect }  from 'react';
-import PropTypes from 'prop-types';
 import { useDrop } from "react-dnd";
 
 import burgerConstructorStyles from './burgerConstructor.module.css';
@@ -147,9 +146,5 @@ const BurgerConstructor = React.forwardRef<HTMLDivElement, TFunc>(({onClick}, re
         </section>
     );
 });
-
-// BurgerConstructor.propTypes = {
-//     onClick: PropTypes.func.isRequired
-// };
 
 export default BurgerConstructor;

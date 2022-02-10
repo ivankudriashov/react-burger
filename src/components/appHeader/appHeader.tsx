@@ -35,7 +35,7 @@ const AppHeader = () => {
                         Личный кабинет
                     </p>
                 </a>  
-            </div>                         
+            </div>
         </header>
     );
 }

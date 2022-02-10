@@ -1,25 +1,23 @@
 import { ThunkAction } from 'redux-thunk';
 import { Action, ActionCreator } from 'redux';
 
-import {store}  from '../store';
+import { store }  from '../store';
 import { TActions } from '../reducers/state';
 
 export type RootState = ReturnType<typeof store.getState>;
 
 type TApplicationActions = TActions; 
 
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, TApplicationActions>
+export type AppThunk<ReturnType = void> = ActionCreator<
+  ThunkAction<ReturnType, Action, RootState, TApplicationActions>
 >; 
 
 export type AppDispatch = typeof store.dispatch; 
-
 
 export const GET_ALL_INGRIDIENTS_REQUEST: 'GET_ALL_INGRIDIENTS_REQUEST' = 'GET_ALL_INGRIDIENTS_REQUEST';
 export const GET_ALL_INGRIDIENTS_SUCCESS: 'GET_ALL_INGRIDIENTS_SUCCESS' = 'GET_ALL_INGRIDIENTS_SUCCESS';
 export const GET_ALL_INGRIDIENTS_FAILED: 'GET_ALL_INGRIDIENTS_FAILED' = 'GET_ALL_INGRIDIENTS_FAILED';
 
-export const GET_ORDER_NUMBER_REQUEST: 'GET_ORDER_NUMBER_REQUEST' = 'GET_ORDER_NUMBER_REQUEST';
 export const GET_ORDER_NUMBER_SUCCESS: 'GET_ORDER_NUMBER_SUCCESS' = 'GET_ORDER_NUMBER_SUCCESS';
 export const GET_ORDER_NUMBER_FAILED: 'GET_ORDER_NUMBER_FAILED' = 'GET_ORDER_NUMBER_FAILED';
 
@@ -44,71 +42,71 @@ export const CLEAR_CONSTRUCTOR: 'CLEAR_CONSTRUCTOR' = 'CLEAR_CONSTRUCTOR';
 
 const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-function checkResponse(res: { ok: boolean; json: () => any; status: any; }) {
+function checkResponse(res: Response) {
   if (res.ok) {
       return res.json();
   }
   return Promise.reject(`Ошибка ${res.status}`);
 }
 
-export function getOrderNumber(orderIngredientsIds: {}) {
-  return function(dispatch: (arg0: { type: "GET_ALL_INGRIDIENTS_REQUEST" | "GET_ORDER_NUMBER_SUCCESS" | "CLEAR_CONSTRUCTOR" | "GET_ORDER_NUMBER_FAILED"; orderNumber?: any; }) => void) {
-    dispatch({
-      type: GET_ALL_INGRIDIENTS_REQUEST
-    })
-    fetch(`${BASE_URL}/orders`, {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/json'
-                          },
-                      body: JSON.stringify(orderIngredientsIds)
-                  })
-    .then(checkResponse)
-    .then(res => {
-      if (res && res.success) {
-        dispatch({
-          type: GET_ORDER_NUMBER_SUCCESS,
-          orderNumber: res.order.number
-        })
-        dispatch({
-          type: CLEAR_CONSTRUCTOR,
-      });
-      } else {
-        dispatch({
-          type: GET_ORDER_NUMBER_FAILED
-        })
-      }
-    }).catch( () => {
+export const getOrderNumber: AppThunk = (orderIngredientsIds: {ingredients: string[];}) => 
+(dispatch: AppDispatch) => {
+  dispatch({
+    type: GET_ALL_INGRIDIENTS_REQUEST,
+    ingridientsRequest: false,
+    ingridientsFailed: false,
+  })
+  fetch(`${BASE_URL}/orders`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                        },
+                    body: JSON.stringify(orderIngredientsIds)
+                })
+  .then(checkResponse)
+  .then(res => {
+    if (res && res.success) {
       dispatch({
-          type: GET_ORDER_NUMBER_FAILED
+        type: GET_ORDER_NUMBER_SUCCESS,
+        orderNumber: res.order.number
       })
-    })
-  };
-}
-
-
-export function getAllIngridients() {
-  return function(dispatch: (arg0: { type: "GET_ORDER_NUMBER_REQUEST" | "GET_ALL_INGRIDIENTS_SUCCESS" | "GET_ALL_INGRIDIENTS_FAILED"; ingridients?: any; }) => void) {
+    } else {
+      dispatch({
+        type: GET_ORDER_NUMBER_FAILED
+      })
+    }
+  }).catch( () => {
     dispatch({
-      type: GET_ORDER_NUMBER_REQUEST
+        type: GET_ORDER_NUMBER_FAILED
     })
+  })
+};
+
+
+export const getAllIngridients: AppThunk = () => 
+  (dispatch: AppDispatch) => {
     fetch(`${BASE_URL}/ingredients`)
     .then(checkResponse)
     .then(res => {
       if (res && res.success) {
         dispatch({
           type: GET_ALL_INGRIDIENTS_SUCCESS,
-          ingridients: res.data
+          ingridients: res.data,
+          ingridientsRequest: false,
+          ingridientsFailed: false,
         })
       } else {
         dispatch({
-          type: GET_ALL_INGRIDIENTS_FAILED
+          type: GET_ALL_INGRIDIENTS_FAILED,
+          ingridientsFailed: true, 
+          ingridientsRequest: false 
         })
       }
     }).catch( err => {
       dispatch({
-          type: GET_ALL_INGRIDIENTS_FAILED
+          type: GET_ALL_INGRIDIENTS_FAILED,
+          ingridientsFailed: true, 
+          ingridientsRequest: false 
       })
     })
-  };
-}
+  }

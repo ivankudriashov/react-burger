@@ -1,5 +1,5 @@
 import React, { useState, useRef, FC } from 'react';
-import PropTypes from 'prop-types';
+
 import burgerIngredientsStyles from './burgerIngredients.module.css';
 
 import BurgerIngredient from '../burgerIngredient/burgerIngredient';
@@ -95,10 +95,5 @@ const BurgerIngredients: FC<{
         </section>
     );
 }
-
-  BurgerIngredients.propTypes = {
-    onClick: PropTypes.func.isRequired
-};
-
 
 export default BurgerIngredients;
