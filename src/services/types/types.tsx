@@ -40,6 +40,13 @@ export type TInitialState = {
   indridientId: string;
   modalOrderDetailsOpened: boolean;
   orderNumber: string;
+  // userName: string,
+  // userEmail: string,
+  // userPassword: string,
+  user: null | {
+    name: string,
+    email: string
+  };
 }
 
 export type TItemDrop = {
@@ -48,6 +55,10 @@ export type TItemDrop = {
 
 export type TFunc = {
   onClick: () => void;
+}
+
+export type TFuncRedirect = {
+  onClick: (e: { preventDefault: () => void;}) => JSX.Element | undefined;
 }
 
 export type TModalProps = {

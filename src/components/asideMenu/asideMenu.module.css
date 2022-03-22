@@ -1,0 +1,21 @@
+.menu {
+    width: 320px;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    list-style: none;
+}
+
+.menu__item {
+    width: 100%;
+    padding: 17px 0;
+}
+
+.menu__link {
+    color: #8585AD;
+    text-decoration: none;
+}
+
+.menu__linkActive {
+    color: white;
+}

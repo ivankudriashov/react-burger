@@ -19,7 +19,10 @@ import {
   CLOSE_ORDER_DATA,
 
   GET_ORDER_NUMBER_SUCCESS,
-  GET_ORDER_NUMBER_FAILED
+  GET_ORDER_NUMBER_FAILED,
+
+  GET_USER,
+  CLEAN_USER
 } from '../actions/state';
 
 import { TItem, TInitialState } from '../types/types';
@@ -124,6 +127,31 @@ interface IClearConstructorAction {
   readonly orderNumber: string
 }
 
+interface IUserRegistrationAction {
+  readonly type: typeof GET_USER;
+  // readonly user: {
+    readonly name: string;
+    readonly email: string;
+  // };
+  // readonly name: string;
+  // readonly email: string;
+
+  // readonly userName: string,
+  // readonly userEmail: string,
+  // readonly userPassword: string,
+}
+
+interface IUserLogOutAction {
+  readonly type: typeof CLEAN_USER;
+  readonly user: null;
+  // readonly name: string;
+  // readonly email: string;
+
+  // readonly userName: string,
+  // readonly userEmail: string,
+  // readonly userPassword: string,
+}
+
 export type TActions = 
   | IGetAllIngridientsAction
   | IGetAllIngridientsSuccessAction
@@ -141,7 +169,9 @@ export type TActions =
   | IGetOtherIngridientsConstructorAction
   | IDeleteIngridientAction
   | IClearConstructorAction
-  | IGetBunConstructorAction;
+  | IGetBunConstructorAction
+  | IUserRegistrationAction
+  | IUserLogOutAction;
 
 const initialState: TInitialState = {
     ingridients: [],
@@ -160,7 +190,13 @@ const initialState: TInitialState = {
 
     modalOrderDetailsOpened: false,
 
-    orderNumber: ''
+    orderNumber: '',
+
+    user: null
+
+    // userName: '',
+    // userEmail: '',
+    // userPassword: '',
   };
 
 export const ingridientsReducer = (state = initialState, action: TActions): TInitialState => {
@@ -290,6 +326,23 @@ export const ingridientsReducer = (state = initialState, action: TActions): TIni
         buns: [],
         otherIngridients: [],
         orderNumber: ''
+      };
+    }
+
+    case GET_USER: {
+      return {
+        ...state,
+        user: {
+          name: action.name,
+          email: action.email
+        }
+      };
+    }
+
+    case CLEAN_USER: {
+      return {
+        ...state,
+        user: action.user,
       };
     }
 

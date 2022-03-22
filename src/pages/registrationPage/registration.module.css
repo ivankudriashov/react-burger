@@ -1,0 +1,40 @@
+.registration {
+    width: 480px;
+    margin: 180px auto 0;
+}
+
+.registration__title {
+    text-align: center;
+}
+
+.registration__form  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registration__input  {
+    width: 100%;
+}
+
+.registration__input div  {
+    width: 100%;
+}
+
+.registration__form div div div div:last-child {
+    width: 24px;
+    padding-left: 24px;
+}
+
+.registration__form input  {
+    width: 100%;
+} 
+
+.registration__wrapper {
+    text-align: center;
+}
+
+.registration__link {
+    color: #4C4CFF;
+    text-decoration: none;
+}

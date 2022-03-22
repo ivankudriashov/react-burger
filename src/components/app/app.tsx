@@ -1,102 +1,78 @@
 import React, { useEffect }  from 'react';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+
+import { BrowserRouter as Router, Switch, Route, Redirect, useLocation } from 'react-router-dom';
 
 import appStyles from './app.module.css';
 
 import AppHeader from '../appHeader/appHeader';
-import BurgerIngredients from '../burgerIngredients/burgerIngredients';
-import BurgerConstructor from '../burgerConstructor/burgerConstructor';
-import Modal from '../modal/modal';
-import OrderDetails from '../orderDetails/orderDetails';
-import IngredientDetails from '../ingredientDetails/ingredientDetails';
 
-import { getOrderNumber } from '../../services/actions/state';
-import { getAllIngridients } from '../../services/actions/state';
+import { ConstructorPage, LoginPage, RegistarationPage, ForgotPage, ResetPasswordPage, ProfilePage } from '../../pages/'
 
-import { 
-    OPEN_INGRIDIENT_DATA, 
-    CLOSE_INGRIDIENT_DATA, 
-    OPEN_ORDER_DATA, 
-    CLOSE_ORDER_DATA, 
-    CLEAR_CONSTRUCTOR
-} from '../../services/actions/state';
+import { getOrderNumber, getUserInfo, getAllIngridients, getCookie } from '../../services/actions/state';
+
+
 
 import { useSelector, useDispatch } from '../../services/types/types';
+import { ProtectedRoute } from '../protected-route';
 
 const App = () => {
 
-    const { constructorIngridientsId }  = useSelector(state => state.ingridients);
-    const { modalIngredientDetailsOpened }  = useSelector(state => state.ingridients);
-    const { modalOrderDetailsOpened }  = useSelector(state => state.ingridients);
+    const { user }  = useSelector(state => state.ingridients);
 
     const dispatch = useDispatch();
 
-    const buttonElement = React.useRef(null);
+    const token = getCookie('token');
+    const accessToken = 'Bearer ' + getCookie('token');
+    const refreshToken = getCookie('refreshToken');
 
     useEffect(() => {
-        dispatch(getAllIngridients()) 
-    }, [dispatch])
+        dispatch(getAllIngridients());
 
-    const handleOpenOrderModal = () => {
+        if(token) {
+            dispatch(getUserInfo(accessToken, refreshToken));
+        }
 
-        const orderIngredientsIds = { 
-            "ingredients": constructorIngridientsId
-        };
-
-        dispatch({
-            type: OPEN_ORDER_DATA,
-        });
-
-        dispatch(getOrderNumber(orderIngredientsIds));
-       
-    }
-
-    const handleOpenIndredientModal = (e: React.MouseEvent<HTMLLIElement>): void => {
-        dispatch({
-            type: OPEN_INGRIDIENT_DATA,
-            indridientId: e.currentTarget.id
-        });
-    }
-    
-    const handleCloseIndredientModal = () => {
-        dispatch({
-            type: CLOSE_INGRIDIENT_DATA,
-        });
-    }
-
-    const handleCloseOrderModal = () => {
-        dispatch({
-            type: CLOSE_ORDER_DATA
-        });
-
-        dispatch({
-            type: CLEAR_CONSTRUCTOR
-        });
-    }
+    }, [dispatch, token, accessToken, refreshToken])
 
     return (
-        <div className={appStyles.app}>
-            <AppHeader />
-            <div className={appStyles.app__container}>
+        <Router>
+            <Switch>
+                <div className={appStyles.app}>
+                    <AppHeader />
+                    <div className={appStyles.app__container}>
+                        
+                    {/* ProtectedRoute */}
+                        <Route path="/" exact={true}>
+                            <ConstructorPage />
+                        </Route>
 
-                <DndProvider backend={HTML5Backend}>
-                    <BurgerIngredients onClick={handleOpenIndredientModal}/>
-                    
-                    <BurgerConstructor ref={buttonElement} onClick={handleOpenOrderModal} />
-                </DndProvider>
+                        <ProtectedRoute path="/order" exact={true}>
+                            <LoginPage />
+                        </ProtectedRoute>
 
-                {modalIngredientDetailsOpened && 
-                <Modal onClose={handleCloseIndredientModal}>
-                    <IngredientDetails/>
-                </Modal> }
+                        <ProtectedRoute path="/profile" exact={true}>
+                            <ProfilePage />
+                        </ProtectedRoute>
 
-                {modalOrderDetailsOpened && 
-                <Modal onClose={handleCloseOrderModal}>
-                    <OrderDetails/>
-                </Modal> }
-            </div>
-        </div>
+                        <Route path="/login" exact={true}>
+                            <LoginPage />
+                        </Route>
+
+                        <Route path="/register" exact={true}>
+                            <RegistarationPage />
+                        </Route>
+
+                        <Route path="/forgot-password" exact={true}>
+                            <ForgotPage />
+                        </Route>
+
+                        <Route path="/reset-password" exact={true}>
+                            <ResetPasswordPage />
+                        </Route>
+                    </div>
+                </div>
+            </Switch>
+        </Router>
     )
 }
   
