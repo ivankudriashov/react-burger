@@ -1,29 +1,16 @@
-import  { ChangeEvent, useState, useRef, useEffect }  from 'react';
+import  { ChangeEvent, useState }  from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
-// import { DndProvider } from "react-dnd";
-// import { HTML5Backend } from "react-dnd-html5-backend";
-// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import forgotStyles from './forgot.module.css';
 
-import { Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
+import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 
 
 
 import { getResetPasswordCode } from '../../services/actions/state';
 
 import { useSelector, useDispatch } from '../../services/types/types';
-// import { getAllIngridients } from '../../services/actions/state';
 
-// import { 
-//     OPEN_INGRIDIENT_DATA, 
-//     CLOSE_INGRIDIENT_DATA, 
-//     OPEN_ORDER_DATA, 
-//     CLOSE_ORDER_DATA, 
-//     CLEAR_CONSTRUCTOR
-// } from '../../services/actions/state';
-
-// import { useSelector, useDispatch } from '../../services/types/types';
 
 
 const RegistarationPage = () => {
@@ -50,16 +37,7 @@ const RegistarationPage = () => {
         dispatch(getResetPasswordCode(email, setSuccess))
     }
 
-    // useEffect(() => {
-    //     if(success) {
-    //         setEmailValue('');
-    //     }
-    //   }, [success]);
-
-
     if(success) {
-        // setSuccess(false)
-
         return (
         <Redirect
             to={{

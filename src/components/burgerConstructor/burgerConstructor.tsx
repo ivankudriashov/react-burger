@@ -7,7 +7,7 @@ import BurgerConstructorIngridient from '../burgerConstructorIngridient/burgerCo
 
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useSelector, useDispatch, TFuncRedirect, TItemDrop } from '../../services/types/types';
+import { useSelector, useDispatch, TFuncPreventDefault, TItemDrop } from '../../services/types/types';
 
 import { 
     GET_TOTAL_PRICE, 
@@ -18,9 +18,7 @@ import {
     GET_INGRIDIENTS_CONSTRUCTOR 
 } from '../../services/actions/state';
 
-import { TFunc } from '../../services/types/types';
-
-const BurgerConstructor = React.forwardRef<HTMLDivElement, TFuncRedirect>(({onClick}, ref) => {
+const BurgerConstructor = React.forwardRef<HTMLDivElement, TFuncPreventDefault>(({onClick}, ref) => {
 
     const { ingridients }  = useSelector(state => state.ingridients);
     const { constructorIngridients }  = useSelector(state => state.ingridients);

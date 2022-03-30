@@ -1,31 +1,15 @@
-import  { ChangeEvent, useState, useRef }  from 'react';
-import { Link, NavLink } from 'react-router-dom';
-// import { DndProvider } from "react-dnd";
-// import { HTML5Backend } from "react-dnd-html5-backend";
-// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import  { useState }  from 'react';
+
 
 import profileStyles from './profile.module.css';
 
-import { Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
+import { Button, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 
 import { changeUserData, getCookie } from '../../services/actions/state';
 
 import { useSelector, useDispatch } from '../../services/types/types';
 
 import AsideMenu from '../../components/asideMenu/asideMenu';
-
-// import { getAllIngridients } from '../../services/actions/state';
-
-// import { 
-//     OPEN_INGRIDIENT_DATA, 
-//     CLOSE_INGRIDIENT_DATA, 
-//     OPEN_ORDER_DATA, 
-//     CLOSE_ORDER_DATA, 
-//     CLEAR_CONSTRUCTOR
-// } from '../../services/actions/state';
-
-// import { useSelector, useDispatch } from '../../services/types/types';
-
 
 const ProfilePage = () => {
 
@@ -42,21 +26,6 @@ const ProfilePage = () => {
 
     const dispatch = useDispatch();
 
-    // const onNameChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    //     setNameValue(e.target.value)
-    //     setActionButtonsActive(true)
-    // }
-
-    // const onLoginChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    //     setCodeValue(e.target.value)
-    //     setActionButtonsActive(true)
-    // }
-
-    // const onPasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    //     setPasswordValue(e.target.value)
-    //     setActionButtonsActive(true)
-    // }
-
     const returnValue = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
 
@@ -66,16 +35,10 @@ const ProfilePage = () => {
     const onChangeUserData = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         
-        // const data = {
-        //     "password": passwordValue,
-        //     "token": codeValue
-        // }
         const token = 'Bearer ' + getCookie('token');
 
         dispatch(changeUserData(token, form))
     }
-
-    // const nameInput = useRef(null);
 
     console.log(form)
 
@@ -103,12 +66,9 @@ const ProfilePage = () => {
                         type={'text'}
                         placeholder={'Имя'}
                         onChange={onChange}
-                        // icon={'CurrencyIcon'}
                         value={form.name}
                         name={'name'}
                         error={false}
-                        // ref={nameInput}
-                        // onIconClick={onIconClick}
                         errorText={'Ошибка'}
                         size={'default'}
                     />
@@ -119,12 +79,9 @@ const ProfilePage = () => {
                         type={'text'}
                         placeholder={'Логин'}
                         onChange={onChange}
-                        // icon={'CurrencyIcon'}
                         value={form.email}
                         name={'email'}
                         error={false}
-                        // ref={inputRef}
-                        // onIconClick={onIconClick}
                         errorText={'Ошибка'}
                         size={'default'}
                     />

@@ -151,11 +151,6 @@ export const getAllIngridients: AppThunk = () =>
 
   export const getResetPasswordCode: AppThunk = (email: {email: string;}, setSuccess) => 
   (dispatch: AppDispatch) => {
-    // dispatch({
-    //   type: GET_ALL_INGRIDIENTS_REQUEST,
-    //   ingridientsRequest: false,
-    //   ingridientsFailed: false,
-    // })
     fetch(`${BASE_URL}/password-reset`, {
                       method: 'POST',
                       headers: {
@@ -166,32 +161,16 @@ export const getAllIngridients: AppThunk = () =>
     .then(checkResponse)
     .then(res => {
       if (res && res.success) {
-        // dispatch({
-        //   type: GET_ORDER_NUMBER_SUCCESS,
-        //   orderNumber: res.order.number
-        // })
-
         setSuccess(true);
-  
-      } else {
-        // dispatch({
-        //   type: GET_ORDER_NUMBER_FAILED
-        // })
-      }
-    // }).catch( () => {
-    //   dispatch({
-    //       type: GET_ORDER_NUMBER_FAILED
-    //   })
+      } 
+    })
+    .catch((err) => {
+      console.log(err)
     })
   };
 
   export const resetPassword: AppThunk = (data: {password: string, token: string }) => 
   (dispatch: AppDispatch) => {
-    // dispatch({
-    //   type: GET_ALL_INGRIDIENTS_REQUEST,
-    //   ingridientsRequest: false,
-    //   ingridientsFailed: false,
-    // })
     fetch(`${BASE_URL}/password-reset/reset`, {
                       method: 'POST',
                       headers: {
@@ -201,21 +180,12 @@ export const getAllIngridients: AppThunk = () =>
                   })
     .then(checkResponse)
     .then(res => {
-      if (res && res.success) {
-        // dispatch({
-        //   type: GET_ORDER_NUMBER_SUCCESS,
-        //   orderNumber: res.order.number
-        // })
-  
-      } else {
-        // dispatch({
-        //   type: GET_ORDER_NUMBER_FAILED
-        // })
-      }
-    // }).catch( () => {
-    //   dispatch({
-    //       type: GET_ORDER_NUMBER_FAILED
-    //   })
+      if (res && res.success) {  
+        console.log(res)
+      } 
+    })
+    .catch((err) => {
+      console.log(err)
     })
   };
 
@@ -241,16 +211,10 @@ export const getAllIngridients: AppThunk = () =>
           email: res.user.email,
           name: res.user.name
         })
-  
-      } else {
-        // dispatch({
-        //   type: GET_ORDER_NUMBER_FAILED
-        // })
       }
-    // }).catch( () => {
-    //   dispatch({
-    //       type: GET_ORDER_NUMBER_FAILED
-    //   })
+    })
+    .catch((err) => {
+      console.log(err)
     })
   };
 
@@ -277,19 +241,6 @@ export const getAllIngridients: AppThunk = () =>
           name: res.user.name
         })
       } 
-    //   else {
-    //     dispatch({
-    //       type: GET_ALL_INGRIDIENTS_FAILED,
-    //       ingridientsFailed: true, 
-    //       ingridientsRequest: false 
-    //     })
-    //   }
-    // }).catch( err => {
-    //   dispatch({
-    //       type: GET_ALL_INGRIDIENTS_FAILED,
-    //       ingridientsFailed: true, 
-    //       ingridientsRequest: false 
-    //   })
     })
   }
 
@@ -363,8 +314,6 @@ export const getAllIngridients: AppThunk = () =>
           setCookie('refreshToken', res.refreshToken);
           return getUserInfo(authToken, refToken)
         })
-
-      } else {
       }
     })
   }
@@ -391,33 +340,7 @@ export const getAllIngridients: AppThunk = () =>
       } 
     })
     .catch((err) => {
+      console.log(err)
     })
-    // .then((err) => {
-    //   if (err && err.message === 'jwt expired') {
-    //     fetch(`${BASE_URL}/auth/token`, {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       },
-    //       body: JSON.stringify({
-    //         "token": `${refreshToken}`
-    //     } )
-    //     })
-    //     .then(checkResponse)
-    //     .then((res) => {
-    //       const authToken = res.accessToken.split('Bearer ')[1];
-    //       const refToken = res.refreshToken;
-
-    //       setCookie('token', authToken);
-    //       setCookie('refreshToken', res.refreshToken);
-
-    //       getUserInfo(authToken, refToken)
-    //     })
-
-    //     console.log('sss')
-    //   } else {
-    //     console.log('aaa')
-    //   }
-    // })
   }
 

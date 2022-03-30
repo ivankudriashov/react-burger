@@ -1,7 +1,7 @@
 import menuStyles from './asideMenu.module.css';
 
 import { NavLink } from 'react-router-dom';
-import { useSelector, useDispatch } from '../../services/types/types';
+import { useDispatch } from '../../services/types/types';
 
 import { getCookie, logOut } from '../../services/actions/state';
 

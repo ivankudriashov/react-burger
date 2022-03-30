@@ -40,9 +40,6 @@ export type TInitialState = {
   indridientId: string;
   modalOrderDetailsOpened: boolean;
   orderNumber: string;
-  // userName: string,
-  // userEmail: string,
-  // userPassword: string,
   user: null | {
     name: string,
     email: string
@@ -57,8 +54,8 @@ export type TFunc = {
   onClick: () => void;
 }
 
-export type TFuncRedirect = {
-  onClick: (e: { preventDefault: () => void;}) => JSX.Element | undefined;
+export type TFuncPreventDefault = {
+  onClick: (e: { preventDefault: () => void}) => void;
 }
 
 export type TModalProps = {

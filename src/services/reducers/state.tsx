@@ -129,27 +129,13 @@ interface IClearConstructorAction {
 
 interface IUserRegistrationAction {
   readonly type: typeof GET_USER;
-  // readonly user: {
     readonly name: string;
     readonly email: string;
-  // };
-  // readonly name: string;
-  // readonly email: string;
-
-  // readonly userName: string,
-  // readonly userEmail: string,
-  // readonly userPassword: string,
 }
 
 interface IUserLogOutAction {
   readonly type: typeof CLEAN_USER;
   readonly user: null;
-  // readonly name: string;
-  // readonly email: string;
-
-  // readonly userName: string,
-  // readonly userEmail: string,
-  // readonly userPassword: string,
 }
 
 export type TActions = 

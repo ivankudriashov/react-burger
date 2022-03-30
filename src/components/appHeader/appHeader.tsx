@@ -1,9 +1,8 @@
 import headerStyles from './appHeader.module.css';
 
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { MouseEventHandler, useEffect, useState } from 'react';
 
 const AppHeader = () => {
 

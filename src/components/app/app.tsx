@@ -1,23 +1,27 @@
-import React, { useEffect }  from 'react';
+import { useEffect }  from 'react';
 
-import { BrowserRouter as Router, Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 
 import appStyles from './app.module.css';
 
 import AppHeader from '../appHeader/appHeader';
 
-import { ConstructorPage, LoginPage, RegistarationPage, ForgotPage, ResetPasswordPage, ProfilePage } from '../../pages/'
+import { ConstructorPage, LoginPage, RegistarationPage, ForgotPage, ResetPasswordPage, ProfilePage, IngredientDetailsPage } from '../../pages/'
 
-import { getOrderNumber, getUserInfo, getAllIngridients, getCookie } from '../../services/actions/state';
+import {  getUserInfo, getAllIngridients, getCookie } from '../../services/actions/state';
 
-
-
-import { useSelector, useDispatch } from '../../services/types/types';
+import { useDispatch } from '../../services/types/types';
 import { ProtectedRoute } from '../protected-route';
+import IngredientDetails from '../ingredientDetails/ingredientDetails';
+import Modal from '../modal/modal';
+
 
 const App = () => {
 
-    const { user }  = useSelector(state => state.ingridients);
+    const history: any = useHistory();
+    let location: any = useLocation();
+
+    let background = history.action === 'PUSH' && location.state && location.state.background;
 
     const dispatch = useDispatch();
 
@@ -32,47 +36,58 @@ const App = () => {
             dispatch(getUserInfo(accessToken, refreshToken));
         }
 
-    }, [dispatch, token, accessToken, refreshToken])
+    }, [dispatch, token, accessToken, refreshToken, history])
 
     return (
-        <Router>
-            <Switch>
-                <div className={appStyles.app}>
-                    <AppHeader />
-                    <div className={appStyles.app__container}>
-                        
-                    {/* ProtectedRoute */}
-                        <Route path="/" exact={true}>
-                            <ConstructorPage />
-                        </Route>
+        <div className={appStyles.app}>
+            <AppHeader />
+            <div className={appStyles.app__container}>
+                <Switch location={background || location}>
+                    <ProtectedRoute path="/order" exact={true}>
+                        <LoginPage />
+                    </ProtectedRoute>
 
-                        <ProtectedRoute path="/order" exact={true}>
-                            <LoginPage />
-                        </ProtectedRoute>
+                    <ProtectedRoute path="/profile" exact={true}>
+                        <ProfilePage />
+                    </ProtectedRoute>
 
-                        <ProtectedRoute path="/profile" exact={true}>
-                            <ProfilePage />
-                        </ProtectedRoute>
+                    <Route path="/login" exact={true}>
+                        <LoginPage />
+                    </Route>
 
-                        <Route path="/login" exact={true}>
-                            <LoginPage />
-                        </Route>
+                    <Route path="/register" exact={true}>
+                        <RegistarationPage />
+                    </Route>
 
-                        <Route path="/register" exact={true}>
-                            <RegistarationPage />
-                        </Route>
+                    <Route path="/forgot-password" exact={true}>
+                        <ForgotPage />
+                    </Route>
 
-                        <Route path="/forgot-password" exact={true}>
-                            <ForgotPage />
-                        </Route>
+                    <Route path="/reset-password" exact={true}>
+                        <ResetPasswordPage />
+                    </Route>
 
-                        <Route path="/reset-password" exact={true}>
-                            <ResetPasswordPage />
-                        </Route>
-                    </div>
-                </div>
-            </Switch>
-        </Router>
+                    <Route path="/ingredients/:id" exact={true}>
+                        <IngredientDetailsPage />
+                    </Route>
+
+                    <Route path="/" exact={true}>
+                        <ConstructorPage />
+                    </Route>
+                </Switch>
+
+                {
+                    background &&
+                    <Route path="/ingredients/:id" exact={true}>
+                        <Modal onClose={() => {
+                            history.goBack();
+                        }}>
+                            <IngredientDetails/>
+                        </Modal> 
+                    </Route>
+                }
+            </div>
+        </div>
     )
 }
   
