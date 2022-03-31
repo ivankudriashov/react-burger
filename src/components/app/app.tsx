@@ -8,7 +8,8 @@ import AppHeader from '../appHeader/appHeader';
 
 import { ConstructorPage, LoginPage, RegistarationPage, ForgotPage, ResetPasswordPage, ProfilePage, IngredientDetailsPage } from '../../pages/'
 
-import {  getUserInfo, getAllIngridients, getCookie } from '../../services/actions/state';
+import {  getAllIngridients } from '../../services/actions/state';
+import { getCookie, getUserInfo } from '../../services/actions/user';
 
 import { useDispatch } from '../../services/types/types';
 import { ProtectedRoute } from '../protected-route';
@@ -19,7 +20,7 @@ import Modal from '../modal/modal';
 const App = () => {
 
     const history: any = useHistory();
-    let location: any = useLocation();
+    const location: any = useLocation();
 
     let background = history.action === 'PUSH' && location.state && location.state.background;
 

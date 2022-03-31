@@ -7,7 +7,7 @@ import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-comp
 
 
 
-import { getResetPasswordCode } from '../../services/actions/state';
+import { getResetPasswordCode } from '../../services/actions/user';
 
 import { useSelector, useDispatch } from '../../services/types/types';
 
@@ -20,7 +20,7 @@ const RegistarationPage = () => {
 
     const state: any = location.state
 
-    const { user }  = useSelector(state => state.ingridients);
+    const { user }  = useSelector(state => state.user);
 
     const [emailValue, setEmailValue] = useState('');
     const [success, setSuccess] = useState(false);

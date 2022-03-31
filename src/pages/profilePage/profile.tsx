@@ -3,17 +3,16 @@ import  { useState }  from 'react';
 
 import profileStyles from './profile.module.css';
 
-import { Button, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
-
-import { changeUserData, getCookie } from '../../services/actions/state';
+import { Button, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useSelector, useDispatch } from '../../services/types/types';
 
 import AsideMenu from '../../components/asideMenu/asideMenu';
+import { changeUserData, getCookie } from '../../services/actions/user';
 
 const ProfilePage = () => {
 
-    const { user }  = useSelector(state => state.ingridients);
+    const { user }  = useSelector(state => state.user);
 
     const [form, setValue] = useState({ name: user ? user.name : "", email: user ? user.email : "", password: "" }) ;
 
@@ -39,8 +38,6 @@ const ProfilePage = () => {
 
         dispatch(changeUserData(token, form))
     }
-
-    console.log(form)
 
     const actionsButtonActive = (isActive: boolean) => isActive ? 
         <div className={`${profileStyles.profile__formActions}`}>

@@ -7,7 +7,7 @@ import { useSelector } from '../../services/types/types';
 
 const OrderDetails = () => {
 
-    const { orderNumber }  = useSelector(state => state.ingridients);
+    const { orderNumber }  = useSelector(state => state.order);
 
     return (
         <div className={`pt-30 pb-30 ${orderDetailsStyles.orderDetails}`}>

@@ -7,7 +7,7 @@ import { Button, EmailInput, PasswordInput} from '@ya.praktikum/react-developer-
 
 import { useSelector, useDispatch } from '../../services/types/types';
 
-import { logIn } from '../../services/actions/state';
+import { logIn } from '../../services/actions/user';
 
 
 const LoginPage = () => {
@@ -17,7 +17,7 @@ const LoginPage = () => {
 
     const state: any = location.state
 
-    const { user }  = useSelector(state => state.ingridients);
+    const { user }  = useSelector(state => state.user);
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -37,10 +37,8 @@ const LoginPage = () => {
             "email": email,
             "password": password
         }
-        dispatch(logIn(data))
+        dispatch(logIn(data));
     }
-
-    console.log('aaa')
 
     if (user) {
         return (
@@ -55,7 +53,7 @@ const LoginPage = () => {
             <h1 className={`text text_type_main-medium mb-6 ${loginStyles.login__title}`}>
                 Вход
             </h1>
-            <form action="#" className={`mb-20 ${loginStyles.login__form}`}>
+            <form onSubmit={authorization} action="#" className={`mb-20 ${loginStyles.login__form}`}>
                 <div className={`mb-6 ${loginStyles.login__input}`}>
                     <EmailInput onChange={onEmailChange} value={email} name={'email'} />
                 </div>
@@ -64,7 +62,7 @@ const LoginPage = () => {
                     <PasswordInput onChange={onPasswordChange} value={password} name={'password'} />
                 </div>
 
-                <Button onClick={authorization} type="primary" size="medium">
+                <Button type="primary" size="medium">
                     Войти
                 </Button>
             </form>

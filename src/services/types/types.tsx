@@ -27,19 +27,25 @@ export type TItem = {
   secondId: string;
 }
 
-export type TInitialState = {
+export type TIngredientsInitialState = {
   ingridients: ReadonlyArray<TItem>;
   ingridientsRequest: boolean;
   ingridientsFailed: boolean;
+  modalIngredientDetailsOpened: boolean;
+  indridientId: string;
+}
+
+export type TOrderInitialState = {
   constructorIngridientsId: Array<string>;
   constructorIngridients: ReadonlyArray<TItem>;
   buns: ReadonlyArray<TItem>;
   otherIngridients: ReadonlyArray<TItem>;
   totalPrice: number;
-  modalIngredientDetailsOpened: boolean;
-  indridientId: string;
   modalOrderDetailsOpened: boolean;
   orderNumber: string;
+}
+
+export type TUserInitialState = {
   user: null | {
     name: string,
     email: string

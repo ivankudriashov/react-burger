@@ -9,22 +9,27 @@ import { useHistory, useLocation } from 'react-router-dom';
 import React, { useEffect } from 'react';
 
 import { 
-    OPEN_INGRIDIENT_DATA,
     OPEN_ORDER_DATA, 
     CLOSE_ORDER_DATA, 
-    CLEAR_CONSTRUCTOR
+    CLEAR_CONSTRUCTOR,
+    getOrderNumber
+} from '../../services/actions/order';
+
+import { 
+    OPEN_INGRIDIENT_DATA
 } from '../../services/actions/state';
 
 import { useSelector, useDispatch } from '../../services/types/types';
-import { getOrderNumber, getUserInfo, getAllIngridients, getCookie } from '../../services/actions/state';
+import { getAllIngridients } from '../../services/actions/state';
+import { getCookie, getUserInfo } from '../../services/actions/user';
 
 const ConstructorPage = () => {
 
-    const { user }  = useSelector(state => state.ingridients);
+    const { user }  = useSelector(state => state.user);
     const location = useLocation();
     const history = useHistory()
 
-    const { constructorIngridientsId }  = useSelector(state => state.ingridients);
+    const { constructorIngridientsId }  = useSelector(state => state.order);
     const dispatch = useDispatch();
 
     const token = getCookie('token');
@@ -40,7 +45,8 @@ const ConstructorPage = () => {
 
     }, [dispatch, token, accessToken, refreshToken])
 
-    const { modalOrderDetailsOpened }  = useSelector(state => state.ingridients);
+    const { modalOrderDetailsOpened }  = useSelector(state => state.order);
+    const { constructorIngridients }  = useSelector(state => state.order);
 
 
     const buttonElement = React.useRef(null);
@@ -66,15 +72,17 @@ const ConstructorPage = () => {
         e.preventDefault();
 
         if (user) {
-            const orderIngredientsIds = { 
-                "ingredients": constructorIngridientsId
-            };
-    
-            dispatch({
-                type: OPEN_ORDER_DATA,
-            });
-    
-            dispatch(getOrderNumber(orderIngredientsIds));
+            if(constructorIngridients.length) {
+                const orderIngredientsIds = { 
+                    "ingredients": constructorIngridientsId
+                };
+        
+                dispatch({
+                    type: OPEN_ORDER_DATA,
+                });
+        
+                dispatch(getOrderNumber(orderIngredientsIds));
+            }
         } else {
             history.push('/login', { from: location })
         }

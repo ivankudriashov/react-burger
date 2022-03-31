@@ -14,7 +14,7 @@ const BurgerIngredient: FC<{
     item: TItem;
     id: string;
 }> = ({onClick, item, id}) => {
-    const { constructorIngridientsId }  = useSelector(state => state.ingridients);
+    const { constructorIngridientsId }  = useSelector(state => state.order);
 
     let location = useLocation();
 
@@ -43,8 +43,9 @@ const BurgerIngredient: FC<{
         <Link to={{
             pathname: `ingredients/${id}`,
             state: {background: location}
-          }}>
-            <li ref={dragRef} onClick={onClick} key={item._id} id={id} className={`mr-2 ml-2 ${burgerIngredientStyles.burgerIngredient}`} >
+          }}
+          className={`${burgerIngredientStyles.burgerIngredient}`}>
+            <li ref={dragRef} onClick={onClick} key={item._id} id={id} className={`mr-2 ml-2 ${burgerIngredientStyles.burgerIngredient__item}`} >
                 <Counter count={getCount(item)} size="default" />
                 <img className="mr-4 ml-4 mb-2" src={item.image} alt={item.name} />
                 <div className={`mb-2 ${burgerIngredientStyles.burgerIngredient__price}`}>

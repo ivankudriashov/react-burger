@@ -5,7 +5,7 @@ import resetStyles from './reset.module.css';
 
 import { Button, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { resetPassword } from '../../services/actions/state';
+import { resetPassword } from '../../services/actions/user';
 
 import { useSelector, useDispatch } from '../../services/types/types';
 
@@ -14,7 +14,7 @@ const ResetPasswordPage = () => {
     const location = useLocation();
     const state: any = location.state;
 
-    const { user }  = useSelector(state => state.ingridients);
+    const { user }  = useSelector(state => state.user);
 
     const [passwordValue, setPasswordValue] = useState('')
     const [codeValue, setCodeValue] = useState('')

@@ -3,16 +3,15 @@ import { Link, Redirect } from 'react-router-dom';
 
 import registrationStyles from './registration.module.css';
 
-import { Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
-
-import { createUser } from '../../services/actions/state';
+import { Button, EmailInput, Input, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useSelector, useDispatch } from '../../services/types/types';
+import { createUser } from '../../services/actions/user';
 
 
 const RegistarationPage = () => {
 
-    const { user }  = useSelector(state => state.ingridients);
+    const { user }  = useSelector(state => state.user);
 
     const dispatch = useDispatch();
 

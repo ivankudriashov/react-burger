@@ -1,12 +1,12 @@
 import { FC }  from 'react';
 
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
 
 import { useSelector } from '../services/types/types';
 
-export const ProtectedRoute: FC<{path?: string; exact?: boolean}> = ({ children, ...rest }) => {
+export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
 
-  const { user }  = useSelector(state => state.ingridients);
+  const { user }  = useSelector(state => state.user);
 
 
   return (

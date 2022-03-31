@@ -3,7 +3,7 @@ import menuStyles from './asideMenu.module.css';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from '../../services/types/types';
 
-import { getCookie, logOut } from '../../services/actions/state';
+import { getCookie, logOut } from '../../services/actions/user';
 
 
 const AsideMenu = () => {

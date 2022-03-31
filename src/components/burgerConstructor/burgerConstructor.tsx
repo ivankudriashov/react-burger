@@ -16,13 +16,13 @@ import {
     GET_BUN_CONSTRUCTOR,
     GET_OTHER_INGRIDIENTS_CONSTRUCTOR,
     GET_INGRIDIENTS_CONSTRUCTOR 
-} from '../../services/actions/state';
+} from '../../services/actions/order';
 
 const BurgerConstructor = React.forwardRef<HTMLDivElement, TFuncPreventDefault>(({onClick}, ref) => {
 
     const { ingridients }  = useSelector(state => state.ingridients);
-    const { constructorIngridients }  = useSelector(state => state.ingridients);
-    const { totalPrice }  = useSelector(state => state.ingridients);
+    const { constructorIngridients }  = useSelector(state => state.order);
+    const { totalPrice }  = useSelector(state => state.order);
 
     const dispatch = useDispatch();
 
@@ -98,15 +98,14 @@ const BurgerConstructor = React.forwardRef<HTMLDivElement, TFuncPreventDefault>(
         <section className={`pt-25 ${burgerConstructorStyles.burgerConstructor} `}>
             <div ref={dropTarget} className={`${burgerConstructorStyles.burgerConstructor__wrapper} `} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>  
                 {bun && <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>
-                    
-                        <ConstructorElement
-                            key={bun.secondId}
-                            type="top"
-                            isLocked={true}
-                            text={`${bun.name} (верх)`}
-                            price={bun.price}
-                            thumbnail={`${bun.image}`}
-                        />
+                    <ConstructorElement
+                        key={bun.secondId}
+                        type="top"
+                        isLocked={true}
+                        text={`${bun.name} (верх)`}
+                        price={bun.price}
+                        thumbnail={`${bun.image}`}
+                    />
                     
                 </div>}
                 { ingridients && <ul className={`pr-2 ${burgerConstructorStyles.burgerConstructor__mainIngridients} `}>
