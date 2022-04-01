@@ -29,7 +29,7 @@ const ResetPasswordPage = () => {
         setCodeValue(e.target.value)
     }
 
-    const onClick = (e: { preventDefault: () => void; }) => {
+    const onReset = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         
         const data = {
@@ -68,7 +68,7 @@ const ResetPasswordPage = () => {
             <h1 className={`text text_type_main-medium mb-6 ${resetStyles.reset__title}`}>
                 Восстановление пароля
             </h1>
-            <form action="#" className={`mb-20 ${resetStyles.reset__form}`}>
+            <form onSubmit={onReset} action="#" className={`mb-20 ${resetStyles.reset__form}`}>
 
                 <div className={`mb-6 ${resetStyles.reset__input}`}>
                     <PasswordInput onChange={onPasswordChange} value={passwordValue} name={'password'} />
@@ -87,7 +87,7 @@ const ResetPasswordPage = () => {
                     />
                 </div>
 
-                <Button onClick={onClick} type="primary" size="medium">
+                <Button type="primary" size="medium">
                     Сохранить
                 </Button>
             </form>

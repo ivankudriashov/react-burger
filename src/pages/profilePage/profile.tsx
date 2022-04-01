@@ -37,6 +37,8 @@ const ProfilePage = () => {
         const token = 'Bearer ' + getCookie('token');
 
         dispatch(changeUserData(token, form))
+
+        console.log('ss')
     }
 
     const actionsButtonActive = (isActive: boolean) => isActive ? 
@@ -45,7 +47,7 @@ const ProfilePage = () => {
                 Отмена
             </Button>
 
-            <Button onClick={onChangeUserData} type="primary" size="medium">
+            <Button type="primary" size="medium">
                 Сохранить
             </Button>
         </div>
@@ -57,7 +59,7 @@ const ProfilePage = () => {
         <div className={profileStyles.profile}>
             <AsideMenu />
             
-            <form action="#" className={`${profileStyles.profile__form}`}>
+            <form onSubmit={onChangeUserData} action="#" className={`${profileStyles.profile__form}`}>
                 <div className={`mb-6 ${profileStyles.profile__input}`}>
                     <Input
                         type={'text'}

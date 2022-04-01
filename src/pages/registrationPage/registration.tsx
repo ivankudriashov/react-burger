@@ -46,7 +46,7 @@ const RegistarationPage = () => {
             <h1 className={`text text_type_main-medium mb-6 ${registrationStyles.registration__title}`}>
                 Регистрация
             </h1>
-            <form action="#" className={`mb-20 ${registrationStyles.registration__form}`}>
+            <form onSubmit={onRegistration} action="#" className={`mb-20 ${registrationStyles.registration__form}`}>
 
                 <div className={`mb-6 ${registrationStyles.registration__input}`}>
                     <Input
@@ -69,7 +69,7 @@ const RegistarationPage = () => {
                     <PasswordInput onChange={onChange} value={form.password} name={'password'} />
                 </div>
 
-                <Button onClick={onRegistration} type="primary" size="medium">
+                <Button type="primary" size="medium">
                     Войти
                 </Button>
             </form>

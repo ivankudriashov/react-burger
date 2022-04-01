@@ -29,7 +29,7 @@ const RegistarationPage = () => {
         setEmailValue(e.target.value)
     }
 
-    const onClick = (e: { preventDefault: () => void; }) => {
+    const onSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         const email = { 
             "email": emailValue
@@ -60,13 +60,13 @@ const RegistarationPage = () => {
             <h1 className={`text text_type_main-medium mb-6 ${forgotStyles.forgot__title}`}>
                 Восстановление пароля
             </h1>
-            <form action="#" className={`mb-20 ${forgotStyles.forgot__form}`}>
+            <form onSubmit={onSubmit} action="#" className={`mb-20 ${forgotStyles.forgot__form}`}>
 
                 <div className={`mb-6 ${forgotStyles.forgot__input}`}>
                     <EmailInput onChange={onEmailChange} value={emailValue} name={'email'} />
                 </div>
 
-                <Button onClick={onClick} type="primary" size="medium">
+                <Button type="primary" size="medium">
                     Восстановить
                 </Button>
             </form>
