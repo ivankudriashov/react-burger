@@ -6,7 +6,7 @@ import appStyles from './app.module.css';
 
 import AppHeader from '../appHeader/appHeader';
 
-import { ConstructorPage, LoginPage, RegistarationPage, ForgotPage, ResetPasswordPage, ProfilePage, IngredientDetailsPage } from '../../pages/'
+import { ConstructorPage, LoginPage, RegistarationPage, ForgotPage, ResetPasswordPage, ProfilePage, IngredientDetailsPage, FeedPage, UserOrdersPage } from '../../pages/'
 
 import {  getAllIngridients } from '../../services/actions/state';
 import { getCookie, getUserInfo } from '../../services/actions/user';
@@ -15,6 +15,10 @@ import { useDispatch } from '../../services/types/types';
 import { ProtectedRoute } from '../protected-route';
 import IngredientDetails from '../ingredientDetails/ingredientDetails';
 import Modal from '../modal/modal';
+import OrderDetails from '../orderDetails/orderDetails';
+import OrderIngredientsDetails from '../orderIngredientsDetails/orderIngredientsDetails';
+import OrderIngredientsDetailsPage from '../../pages/orderIngredientsDetailsPage/orderIngredientsDetailsPage';
+
 
 
 const App = () => {
@@ -44,8 +48,12 @@ const App = () => {
             <AppHeader />
             <div className={appStyles.app__container}>
                 <Switch location={background || location}>
-                    <ProtectedRoute path="/order" exact={true}>
-                        <LoginPage />
+                    <ProtectedRoute path="/profile/order" exact={true}>
+                        <UserOrdersPage />
+                    </ProtectedRoute>
+
+                    <ProtectedRoute path="/profile/order/:id" exact={true}>
+                        <OrderIngredientsDetailsPage />
                     </ProtectedRoute>
 
                     <ProtectedRoute path="/profile" exact={true}>
@@ -75,6 +83,14 @@ const App = () => {
                     <Route path="/" exact={true}>
                         <ConstructorPage />
                     </Route>
+
+                    <Route path="/feed" exact={true}>
+                        <FeedPage />
+                    </Route>
+
+                    <Route path="/feed/:id" exact={true}>
+                        <OrderIngredientsDetailsPage />
+                    </Route>
                 </Switch>
 
                 {
@@ -84,6 +100,28 @@ const App = () => {
                             history.goBack();
                         }}>
                             <IngredientDetails/>
+                        </Modal> 
+                    </Route>
+                }
+
+                {
+                    background &&
+                    <Route path="/feed/:id" exact={true}>
+                        <Modal onClose={() => {
+                            history.goBack();
+                        }}>
+                            <OrderIngredientsDetails/>
+                        </Modal> 
+                    </Route>
+                }
+
+                {
+                    background &&
+                    <Route path="/profile/order/:id" exact={true}>
+                        <Modal onClose={() => {
+                            history.goBack();
+                        }}>
+                            <OrderIngredientsDetails/>
                         </Modal> 
                     </Route>
                 }

@@ -17,10 +17,12 @@ const AsideMenu = () => {
         
         dispatch(logOut(refreshToken))
     }
+
     return (
         <ul className={`mr-15 pl-5 ${menuStyles.menu}`}>
             <li className={`${menuStyles.menu__item}`}>
                 <NavLink
+                    exact={true}
                     to='/profile'
                     className={`text text_type_main-medium ${menuStyles.menu__link}`}
                     activeClassName={`${menuStyles.menu__linkActive}`}
@@ -30,7 +32,8 @@ const AsideMenu = () => {
             </li>
             <li className={`${menuStyles.menu__item}`}>
                 <NavLink
-                    to='/profile/orders'
+                    exact={true}
+                    to='/profile/order'
                     className={`text text_type_main-medium ${menuStyles.menu__link}`}
                     activeClassName={`${menuStyles.menu__linkActive}`}
                 >

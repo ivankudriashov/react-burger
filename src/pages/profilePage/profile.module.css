@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: wrap;
 
-    margin: 180px 0 0;
+    margin: 120px 0 0;
 }
 
 .profile__form  {
@@ -33,11 +33,6 @@
 .profile__wrapper {
     text-align: center;
 }
-
-/* .profile__link {
-    color: #4C4CFF;
-    text-decoration: none;
-} */
 
 .profile__info {
     flex-basis: 100%;
