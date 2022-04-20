@@ -4,7 +4,7 @@ import st from './userOrdersPage.module.css';
 
 import { useDispatch, useSelector } from '../../services/types/types';
 import { useEffect } from 'react';
-import { WS_USER_CONNECTION_CLOSED, WS_USER_CONNECTION_START } from '../../services/actions/ws';
+import { WS_CONNECTION_CLOSE, WS_USER_CONNECTION_START } from '../../services/actions/ws';
 
 const UserOrdersPage = () => {
 
@@ -14,7 +14,7 @@ const UserOrdersPage = () => {
         dispatch({ type: WS_USER_CONNECTION_START });
 
         return () => {
-            dispatch({ type: WS_USER_CONNECTION_CLOSED });
+            dispatch({ type: WS_CONNECTION_CLOSE });
         }
 
     }, [dispatch])

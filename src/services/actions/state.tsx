@@ -4,8 +4,10 @@ import { Action, ActionCreator } from 'redux';
 import { store }  from '../store';
 import { TIngredientActions } from '../reducers/state';
 import { TUserActions } from '../reducers/user';
+import { rootReducer } from '../reducers';
 
-export type RootState = ReturnType<typeof store.getState>;
+// export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 
 type TApplicationActions = TIngredientActions | TUserActions; 
 

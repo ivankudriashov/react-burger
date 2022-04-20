@@ -1,11 +1,14 @@
 import { getCookie } from '../actions/user';
+import { TWsActions } from '../reducers/ws';
+import { TWsActionsAll } from '../types/types';
+import { Middleware } from "redux";
+import { RootState } from '../actions/state';
 
-
-export const socketMiddleware = (wsUrl: string | URL, wsActions: any, token: boolean ) => {
-    return (store: { dispatch: any; getState: any; }) => {
+export const socketMiddleware = (wsUrl: string | URL, wsActions: TWsActionsAll, token: boolean ) : Middleware<{}, RootState> => {
+    return (store) => {
         let socket: WebSocket | null = null;
 
-    return (next: (arg0: any) => void) => (action: { type: any; payload: any; }) => {
+    return (next) => (action: TWsActions) => {
       const { dispatch } = store;
       const { type } = action;
       const accessToken = getCookie('token');

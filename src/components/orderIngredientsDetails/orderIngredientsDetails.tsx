@@ -21,16 +21,11 @@ const OrderIngredientsDetails: FC = () => {
     const [count, setCount] = useState();
     const [orderIngredients, setOrderIngredients] = useState<Array<TItem | undefined>>();
 
-    useEffect(() => {
-        if (orders.length === 0) {
-            console.log(orders.length)
-            dispatch({ type: WS_CONNECTION_START });
-            
-            return () => {
-                dispatch({ type: WS_CONNECTION_CLOSE });
-            }
-        }
-    }, [dispatch, orders]);
+    // useEffect(() => {
+        
+    // }, [dispatch, orders]);
+
+    // console.log(orders)
 
     const params: {id: string} = useParams();
 
@@ -46,6 +41,15 @@ const OrderIngredientsDetails: FC = () => {
        );
 
     useEffect(() => {
+        if (orders.length === 0) {
+            console.log(orders.length)
+            dispatch({ type: WS_CONNECTION_START });
+            
+            return () => {
+                dispatch({ type: WS_CONNECTION_CLOSE });
+            }
+        }
+
         const sortedOrder= orders.find((item) => item._id === params.id);
         setClickedOrder(sortedOrder)
 
@@ -77,7 +81,7 @@ const OrderIngredientsDetails: FC = () => {
 
             setCount(countNotUniqueIngredients(clickedOrder.ingredients));
         }
-    }, [clickedOrder, orders, params.id, orderStatus, ingridients, countNotUniqueIngredients])
+    }, [clickedOrder, orders, params.id, orderStatus, ingridients, countNotUniqueIngredients, dispatch])
 
 
     const uniqIngredients = orderIngredients?.filter((ingredient, index, array) => {

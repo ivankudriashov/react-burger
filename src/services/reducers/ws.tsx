@@ -6,7 +6,10 @@ import {
     WS_USER_CONNECTION_SUCCESS,
     WS_USER_CONNECTION_ERROR,
     WS_USER_CONNECTION_CLOSED,
-    WS_GET_USER_ORDERS
+    WS_GET_USER_ORDERS,
+    WS_CONNECTION_START,
+    WS_USER_CONNECTION_START,
+    WS_CONNECTION_CLOSE
   } from '../actions/ws';
 import { TFeedState, TOrder } from '../types/types';
 
@@ -56,7 +59,19 @@ export interface IWsUserGetAction {
   readonly payload: any
 }
 
-export type TUserActions = 
+export interface IWsUserConnectionAction {
+  readonly type: typeof WS_USER_CONNECTION_START;
+}
+
+export interface IWsConnectionAction {
+  readonly type: typeof WS_CONNECTION_START;
+}
+
+export interface IWsCloseAction {
+  readonly type: typeof WS_CONNECTION_CLOSE;
+}
+
+export type TWsActions = 
   | IWsSuccessAction
   | IWsErrorAction
   | IWsClosedAction
@@ -64,7 +79,10 @@ export type TUserActions =
   | IWsUserSuccessAction
   | IWsUserErrorAction
   | IWsUserClosedAction
-  | IWsUserGetAction;
+  | IWsUserGetAction
+  | IWsUserConnectionAction
+  | IWsConnectionAction
+  | IWsCloseAction;
 
   const initialState: TFeedState = {
     wsConnected: false,
@@ -73,8 +91,23 @@ export type TUserActions =
     totalToday: 0,
   };
   
-  export const wsReducer = (state = initialState, action: TUserActions): TFeedState => {
+  export const wsReducer = (state = initialState, action: TWsActions): TFeedState => {
     switch (action.type) {
+      case WS_USER_CONNECTION_START:
+        return {
+          ...state
+        };
+
+      case WS_CONNECTION_START:
+        return {
+          ...state
+        };
+
+      case WS_CONNECTION_CLOSE:
+        return {
+          ...state
+        };
+
       case WS_CONNECTION_SUCCESS:
         return {
           ...state,

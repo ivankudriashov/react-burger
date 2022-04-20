@@ -6,7 +6,7 @@ import OrderDetails from '../../components/orderDetails/orderDetails';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useHistory, useLocation } from 'react-router-dom';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { 
     OPEN_ORDER_DATA, 
@@ -20,8 +20,6 @@ import {
 } from '../../services/actions/state';
 
 import { useSelector, useDispatch } from '../../services/types/types';
-import { getAllIngridients } from '../../services/actions/state';
-import { getCookie, getUserInfo } from '../../services/actions/user';
 
 const ConstructorPage = () => {
 
@@ -32,19 +30,6 @@ const ConstructorPage = () => {
 
     const { constructorIngridientsId }  = useSelector(state => state.order);
     const dispatch = useDispatch();
-
-    const token = getCookie('token');
-    const accessToken = 'Bearer ' + getCookie('token');
-    const refreshToken = getCookie('refreshToken');
-
-    useEffect(() => {
-        dispatch(getAllIngridients());
-
-        if(token) {
-            dispatch(getUserInfo(accessToken, refreshToken));
-        }
-
-    }, [dispatch, token, accessToken, refreshToken])
 
     const { modalOrderDetailsOpened }  = useSelector(state => state.order);
     const { constructorIngridients }  = useSelector(state => state.order);
