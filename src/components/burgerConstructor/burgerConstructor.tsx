@@ -23,6 +23,7 @@ const BurgerConstructor = React.forwardRef<HTMLDivElement, TFuncPreventDefault>(
     const { ingridients }  = useSelector(state => state.ingridients);
     const { constructorIngridients }  = useSelector(state => state.order);
     const { totalPrice }  = useSelector(state => state.order);
+    const { modalOrderDetailsOpened }  = useSelector(state => state.order);
 
     const dispatch = useDispatch();
 
@@ -96,6 +97,14 @@ const BurgerConstructor = React.forwardRef<HTMLDivElement, TFuncPreventDefault>(
 
     return (
         <section className={`pt-25 ${burgerConstructorStyles.burgerConstructor} `}>
+            {modalOrderDetailsOpened ? 
+            <div className={`text text_type_main-large ${burgerConstructorStyles.burgerConstructor__wrapperMessage} `}>
+                <span className={`text text_type_main-large`}>
+                    Ваш заказ принят
+                </span>
+                
+            </div>
+            :
             <div ref={dropTarget} className={`${burgerConstructorStyles.burgerConstructor__wrapper} `} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>  
                 {bun && <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>
                     <ConstructorElement
@@ -125,6 +134,8 @@ const BurgerConstructor = React.forwardRef<HTMLDivElement, TFuncPreventDefault>(
                         />
                 </div>}
             </div>
+            }
+            
             <div className={`pr-4 mt-10 ${burgerConstructorStyles.burgerConstructor__order}`}>
                {totalPrice && <p className={`text text_type_digits-default ${burgerConstructorStyles.burgerConstructor__count}`}>{totalPrice}</p>}
                 <div className={`mr-10 ${burgerConstructorStyles.burgerConstructor__icon}`}>

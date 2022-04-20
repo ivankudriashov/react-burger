@@ -1,4 +1,5 @@
 import { AppDispatch, AppThunk, BASE_URL, checkResponse } from "./state";
+import { getCookie } from "./user";
 
 export const GET_ORDER_NUMBER_SUCCESS: 'GET_ORDER_NUMBER_SUCCESS' = 'GET_ORDER_NUMBER_SUCCESS';
 export const GET_ORDER_NUMBER_FAILED: 'GET_ORDER_NUMBER_FAILED' = 'GET_ORDER_NUMBER_FAILED';
@@ -19,13 +20,15 @@ export const GET_ORDER_NUMBER: 'GET_ORDER_NUMBER' = 'GET_ORDER_NUMBER';
 export const CONSTRUCTOR_INGREDIENTS_SORT: 'CONSTRUCTOR_INGREDIENTS_SORT' = 'CONSTRUCTOR_INGREDIENTS_SORT';
 export const CLEAR_CONSTRUCTOR: 'CLEAR_CONSTRUCTOR' = 'CLEAR_CONSTRUCTOR';
 
+const accessToken = 'Bearer ' + getCookie('token');
 
-export const getOrderNumber: AppThunk = (orderIngredientsIds: {ingredients: string[];}) => 
+export const getOrderNumber: AppThunk = ( orderIngredientsIds: {ingredients: string[];}) => 
 (dispatch: AppDispatch) => {
   fetch(`${BASE_URL}/orders`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'authorization': accessToken ? accessToken : ''
                         },
                     body: JSON.stringify(orderIngredientsIds)
                 })

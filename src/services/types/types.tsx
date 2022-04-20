@@ -27,6 +27,18 @@ export type TItem = {
   secondId: string;
 }
 
+
+
+export type TOrder = {
+  createdAt: string;
+  ingredients: string[];
+  name: string;
+  number: number;
+  status: string;
+  updatedAt: string;
+  _id: string;
+}
+
 export type TIngredientsInitialState = {
   ingridients: ReadonlyArray<TItem>;
   ingridientsRequest: boolean;
@@ -52,6 +64,13 @@ export type TUserInitialState = {
   };
 }
 
+export type TFeedState = {
+  wsConnected: boolean,
+  orders: Array<TOrder>,
+  total: number,
+  totalToday: number,
+}
+
 export type TItemDrop = {
   item: TItem
 }
@@ -67,3 +86,7 @@ export type TFuncPreventDefault = {
 export type TModalProps = {
   onClose: () => void;
 } ;
+
+export type TCount = {
+  [index: string]: number
+}

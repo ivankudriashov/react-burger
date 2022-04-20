@@ -7,6 +7,18 @@
     border-radius: 40px;
 }
 
+.statusDone {
+    display: block;
+
+    color: #00CCCC;
+}
+
+.statusPedding {
+    display: block;
+
+    color: white;
+}
+
 .order:not(:last-child) {
     margin-bottom: 16px;
 }
@@ -57,22 +69,3 @@
     list-style: none;
 }
 
-.order__ingredient:not(:first-child) {
-   margin-right: -20px;
-}
-
-.order__imgContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 64px;
-    height: 64px;
-
-    border-radius: 50%;
-    border: 2px solid #4C4CFF;
-
-    background: #1C1C21;
-
-    box-sizing: border-box;
-}

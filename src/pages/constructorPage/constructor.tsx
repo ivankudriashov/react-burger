@@ -26,6 +26,7 @@ import { getCookie, getUserInfo } from '../../services/actions/user';
 const ConstructorPage = () => {
 
     const { user }  = useSelector(state => state.user);
+    const { orderNumber }  = useSelector(state => state.order);
     const location = useLocation();
     const history = useHistory()
 
@@ -96,7 +97,7 @@ const ConstructorPage = () => {
                 <BurgerConstructor ref={buttonElement} onClick={handleOpenOrderModal} />
             </DndProvider>
 
-            {modalOrderDetailsOpened && 
+            {modalOrderDetailsOpened && orderNumber && 
             <Modal onClose={handleCloseOrderModal}>
                 <OrderDetails/>
             </Modal> } 

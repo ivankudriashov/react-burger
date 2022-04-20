@@ -52,6 +52,8 @@ export const getAllIngridients: AppThunk = () =>
         })
       }
     }).catch( err => {
+
+      console.log(err)
       dispatch({
           type: GET_ALL_INGRIDIENTS_FAILED,
           ingridientsFailed: true, 

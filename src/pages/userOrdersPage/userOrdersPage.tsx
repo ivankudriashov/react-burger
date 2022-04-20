@@ -2,23 +2,25 @@ import AsideMenu from '../../components/asideMenu/asideMenu';
 import Order from '../../components/order/order';
 import st from './userOrdersPage.module.css';
 
-// import { NavLink } from 'react-router-dom';
-// import { useDispatch } from '../../services/types/types';
-
-// import { getCookie, logOut } from '../../services/actions/user';
-
+import { useDispatch, useSelector } from '../../services/types/types';
+import { useEffect } from 'react';
+import { WS_USER_CONNECTION_CLOSED, WS_USER_CONNECTION_START } from '../../services/actions/ws';
 
 const UserOrdersPage = () => {
 
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    // const out = (e: { preventDefault: () => void; }) => {
-    //     e.preventDefault();
+    useEffect(() => {
+        dispatch({ type: WS_USER_CONNECTION_START });
 
-    //     const refreshToken = getCookie('refreshToken');
-        
-    //     dispatch(logOut(refreshToken))
-    // }
+        return () => {
+            dispatch({ type: WS_USER_CONNECTION_CLOSED });
+        }
+
+    }, [dispatch])
+
+    const { orders }  = useSelector(state => state.ws);
+
     return (
         <div className={`${st.container}`}>
             <div className={`mt-30 ${st.menuContainer}`}>
@@ -29,16 +31,15 @@ const UserOrdersPage = () => {
             </div>
 
             <ul className={`mt-10 ${st.orders}`}>
-                <Order />
-                <Order />
-                <Order />
-                <Order />
-                <Order />
+                {orders.map((item) => (
+                    <Order 
+                        order={item}
+                        key={ item._id }
+                        userOrder={true}
+                    />
+                ))}
             </ul>
         </div>
-        
-
-
     )
 }
 

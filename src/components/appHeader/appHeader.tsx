@@ -44,11 +44,10 @@ const AppHeader = () => {
                 </Link>
 
                 <NavLink to='/profile' 
-                exact={true}
                 className={headerStyles.profile}
                 activeClassName={`${headerStyles.navigationLink__active}`}
                 >
-                    <ProfileIcon type={location.pathname === "/profile" ? "primary" : "secondary"} />
+                    <ProfileIcon type={location.pathname === "/profile" || location.pathname === "/profile/order" ? "primary" : "secondary"} />
                     <p className={`text text_type_main-default text_color_inactive ml-2 ${headerStyles.linkText}`}>
                         Личный кабинет
                     </p>

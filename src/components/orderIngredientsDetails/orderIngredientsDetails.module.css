@@ -5,10 +5,16 @@
     height: 64px;
 }
 
-.status {
+.statusDone {
     display: block;
 
     color: #00CCCC;
+}
+
+.statusPedding {
+    display: block;
+
+    color: white;
 }
 
 .subtitle {
@@ -79,6 +85,12 @@
   background: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%);
   border-radius: 100%;
   z-index: -1;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .ingredientName {
