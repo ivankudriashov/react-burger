@@ -7,7 +7,7 @@ import BurgerConstructorIngridient from '../burgerConstructorIngridient/burgerCo
 
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useSelector, useDispatch } from '../../services/types/types';
+import { useSelector, useDispatch, TFuncPreventDefault, TItemDrop } from '../../services/types/types';
 
 import { 
     GET_TOTAL_PRICE, 
@@ -16,17 +16,13 @@ import {
     GET_BUN_CONSTRUCTOR,
     GET_OTHER_INGRIDIENTS_CONSTRUCTOR,
     GET_INGRIDIENTS_CONSTRUCTOR 
-} from '../../services/actions/state';
+} from '../../services/actions/order';
 
-import { TItemDrop, TFunc } from '../../services/types/types';
-
-const BurgerConstructor = React.forwardRef<HTMLDivElement, TFunc>(({onClick}, ref) => {
+const BurgerConstructor = React.forwardRef<HTMLDivElement, TFuncPreventDefault>(({onClick}, ref) => {
 
     const { ingridients }  = useSelector(state => state.ingridients);
-    const { constructorIngridients }  = useSelector(state => state.ingridients);
-    const { totalPrice }  = useSelector(state => state.ingridients);
-
-    console.log()
+    const { constructorIngridients }  = useSelector(state => state.order);
+    const { totalPrice }  = useSelector(state => state.order);
 
     const dispatch = useDispatch();
 
@@ -102,15 +98,14 @@ const BurgerConstructor = React.forwardRef<HTMLDivElement, TFunc>(({onClick}, re
         <section className={`pt-25 ${burgerConstructorStyles.burgerConstructor} `}>
             <div ref={dropTarget} className={`${burgerConstructorStyles.burgerConstructor__wrapper} `} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>  
                 {bun && <div className={`pl-8 pr-4 ${burgerConstructorStyles.burgerConstructor__bunIngridient} `}>
-                    
-                        <ConstructorElement
-                            key={bun.secondId}
-                            type="top"
-                            isLocked={true}
-                            text={`${bun.name} (верх)`}
-                            price={bun.price}
-                            thumbnail={`${bun.image}`}
-                        />
+                    <ConstructorElement
+                        key={bun.secondId}
+                        type="top"
+                        isLocked={true}
+                        text={`${bun.name} (верх)`}
+                        price={bun.price}
+                        thumbnail={`${bun.image}`}
+                    />
                     
                 </div>}
                 { ingridients && <ul className={`pr-2 ${burgerConstructorStyles.burgerConstructor__mainIngridients} `}>

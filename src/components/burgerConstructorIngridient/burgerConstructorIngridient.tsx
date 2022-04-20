@@ -10,7 +10,7 @@ import { useDispatch } from '../../services/types/types';
 import { 
     GET_INGRIDIENTS_CONSTRUCTOR,
     CONSTRUCTOR_INGREDIENTS_SORT
-} from '../../services/actions/state';
+} from '../../services/actions/order';
 
 import { TItem } from '../../services/types/types';
 
