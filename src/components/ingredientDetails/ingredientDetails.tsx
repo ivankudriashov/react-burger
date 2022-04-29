@@ -15,14 +15,12 @@ const IngredientDetails: FC = () => {
         const sortedIngridient = ingridients.find((item) => item._id === params.id);
 
         setClickedIngridient(sortedIngridient)
-      }, [ingridients, params.id])
-
-    
+    }, [ingridients, params.id])
 
     return  <>
         { 
             clickedIngridient && (
-                <div className={`pt-10 pb-15 ${ingredientDetails.ingredientDetails}`}>
+            <div className={`pt-10 pb-15 ${ingredientDetails.ingredientDetails}`}>
                 <h2 className={`pl-10 text text_type_main-large ${ingredientDetails.title}`}>Детали ингредиента</h2>
                 <img className={`mb-4`} src={clickedIngridient.image_large} alt={clickedIngridient.name} />
                 <p className={`mb-8 text text_type_main-medium`}>{clickedIngridient.name}</p>

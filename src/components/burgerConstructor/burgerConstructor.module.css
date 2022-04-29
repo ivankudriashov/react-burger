@@ -10,6 +10,14 @@
     min-height: 564px;
 }
 
+.burgerConstructor__wrapperMessage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    min-height: 564px;
+}
+
 .burgerConstructor__mainIngridients {
     display: flex;
     flex-direction: column;

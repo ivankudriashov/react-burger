@@ -5,5 +5,7 @@ import  ResetPasswordPage from "./resetPage/reset"
 import  ProfilePage from "./profilePage/profile"
 import  ConstructorPage from "./constructorPage/constructor"
 import  IngredientDetailsPage from "./ingredientDetailsPage/ingredientDetailsPage"
+import  FeedPage from "./feedPage/feed"
+import  UserOrdersPage from "./userOrdersPage/userOrdersPage"
 
-export { ConstructorPage, IngredientDetailsPage, LoginPage, RegistarationPage, ForgotPage, ResetPasswordPage, ProfilePage };
+export { ConstructorPage, IngredientDetailsPage, LoginPage, RegistarationPage, ForgotPage, ResetPasswordPage, ProfilePage, FeedPage, UserOrdersPage };

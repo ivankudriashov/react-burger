@@ -1,0 +1,74 @@
+.feed {
+
+}
+
+.feed__container {
+    display: flex;
+}
+
+.feed__orders {
+    width: 584px;
+    height: calc(100vh - 284px);
+    /* margin: 0; */
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+    scrollbar-color: #8585AD #2F2F37;
+    scrollbar-width: thin;
+}
+
+.feed__orders::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+}
+
+.feed__orders::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.feed__orders::-webkit-scrollbar-thumb:hover {
+    background-color: #8585AD;
+}
+
+.feed__status {
+    display: flex;
+
+    width: 584px;
+}
+
+.feed__statusContainer {
+    width: 50%;
+}
+
+.feed__statusTitle {
+    display: block;
+}
+
+.feed__statusList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    row-gap: 8px;
+
+    max-height: 153px;
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.feed__statusItemDone {
+    color: #00CCCC;
+}
+
+.feed__statisticsTitle {
+    display: block;
+}
+
+.feed__statisticsInfo {
+    display: block;
+}

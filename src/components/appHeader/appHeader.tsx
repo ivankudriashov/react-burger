@@ -25,13 +25,13 @@ const AppHeader = () => {
                         </NavLink>
                     </li>
                     <li className="mt-4 mb-4 pr-5 pl-5">
-                        <NavLink to='/order' 
+                        <NavLink to='/feed' 
                         exact={true}
                         className={headerStyles.navigationLink}
                         activeClassName={`${headerStyles.navigationLink__active}`}
                         
                         >
-                            <ListIcon type={location.pathname === "/order" ? "primary" : "secondary"} />
+                            <ListIcon type={location.pathname === "/feed" ? "primary" : "secondary"} />
                             <p className={`text text_type_main-default text_color_inactive ml-2 ${headerStyles.linkText}`}>
                                 Лента заказов
                             </p>
@@ -44,11 +44,10 @@ const AppHeader = () => {
                 </Link>
 
                 <NavLink to='/profile' 
-                exact={true}
                 className={headerStyles.profile}
                 activeClassName={`${headerStyles.navigationLink__active}`}
                 >
-                    <ProfileIcon type={location.pathname === "/profile" ? "primary" : "secondary"} />
+                    <ProfileIcon type={location.pathname === "/profile" || location.pathname === "/profile/order" ? "primary" : "secondary"} />
                     <p className={`text text_type_main-default text_color_inactive ml-2 ${headerStyles.linkText}`}>
                         Личный кабинет
                     </p>

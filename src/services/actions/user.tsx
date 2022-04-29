@@ -4,7 +4,13 @@ export const GET_USER: 'GET_USER' = 'GET_USER';
 export const CLEAN_USER: 'CLEAN_USER' = 'CLEAN_USER';
 
 export function setCookie(name: string, value: string | boolean , props?: any) {
-  props = props || {};
+  // props = props || {};
+  props = {
+    path: '/',
+    ...props
+  }
+
+
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
     const d = new Date();
