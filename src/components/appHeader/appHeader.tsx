@@ -12,7 +12,7 @@ const AppHeader = () => {
         <header className={headerStyles.header}>
             <div className={headerStyles.container} >
                 <ul className={headerStyles.navigation}>
-                    <li className="mt-4 mb-4 mr-2 pr-5 pl-5 хуй">
+                    <li className="mt-4 mb-4 mr-2 pr-5 pl-5">
                         <NavLink to='/' 
                         exact={true}
                         className={headerStyles.navigationLink}
