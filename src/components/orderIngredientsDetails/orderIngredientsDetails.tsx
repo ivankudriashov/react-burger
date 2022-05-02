@@ -21,12 +21,6 @@ const OrderIngredientsDetails: FC = () => {
     const [count, setCount] = useState();
     const [orderIngredients, setOrderIngredients] = useState<Array<TItem | undefined>>();
 
-    // useEffect(() => {
-        
-    // }, [dispatch, orders]);
-
-    // console.log(orders)
-
     const params: {id: string} = useParams();
 
     const countNotUniqueIngredients = useCallback(
